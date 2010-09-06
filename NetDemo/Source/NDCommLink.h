@@ -1,9 +1,10 @@
 /*
- *  NDCommLink.h
+ *  $Id$
  *
  *  NetDemo
+ *  http://stuconnolly.com/projects/code/
  *
- *  Copyright (c) 2010 Stuart Connolly
+ *  Copyright (c) 2010 Stuart Connolly. All rights reserved.
  *
  *  Permission is hereby granted, free of charge, to any person
  *  obtaining a copy of this software and associated documentation
