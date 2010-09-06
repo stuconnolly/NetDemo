@@ -30,14 +30,11 @@
 
 @interface NDCommLink : NSObject <NSStreamDelegate>
 {
+	NSHost *host;
 	NSUInteger port;
-	
-	NSHost *_host;
-	
-	NSInputStream *_iStream;
-	NSOutputStream *_oStream;
 }
 
+@property (readwrite, retain) NSHost *host;
 @property (readwrite, assign) NSUInteger port;
 
 - (BOOL)initStreams;

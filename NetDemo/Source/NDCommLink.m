@@ -32,72 +32,32 @@
 
 @implementation NDCommLink
 
+@synthesize host;
 @synthesize port;
 
 /**
- *
+ * Init.
  */
 - (id)init
 {
 	if ((self = [super init])) {
 		
-		_host = [NSHost currentHost];
+		// Default to localhost
+		host = [NSHost currentHost];
 		
-		port = -1;
+		// Defaul port
+		port = 1987;
 	}
 	
 	return self;
 }
 
-- (BOOL)initStreams
-{
-	if (!_host || (port < 1024)) return NO;
-	
-	[NSStream getStreamsToHost:_host port:port inputStream:&_iStream outputStream:&_oStream];
-	
-	// Retain the streams as they're autoreleased
-	[_iStream retain];
-	[_oStream retain];
-	
-	// Set stream delegates
-	[_iStream setDelegate:self];
-	[_oStream setDelegate:self];
-	
-	// Schedule streams on the current run loop
-	[_iStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[_oStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	
-	// Open the streams
-	[_iStream open];
-	[_oStream open];
-	
-	return YES;
-}
-
 /**
- *
- */
-- (void)stream:(NSStream *)theStream handleEvent:(NSStreamEvent)streamEvent
-{
-	NSLog(@"%@", streamEvent);
-}
-
-/**
- *
+ * Dealloc.
  */
 - (void)dealloc
 {
-	if ([_iStream streamStatus] == NSStreamStatusOpen) {
-		[_iStream close];
-		[_iStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-		[_iStream release], _iStream = nil;
-	}
-	
-	if ([_oStream streamStatus] == NSStreamStatusOpen) {
-		[_oStream close];
-		[_iStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-		[_oStream release], _oStream = nil;
-	}
+	[host release], host = nil;
 		
 	[super dealloc];
 }
