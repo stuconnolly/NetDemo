@@ -28,9 +28,9 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDCommLink.h"
+#import "NDNetworkNode.h"
 
-@implementation NDCommLink
+@implementation NDNetworkNode
 
 @synthesize host;
 @synthesize port;

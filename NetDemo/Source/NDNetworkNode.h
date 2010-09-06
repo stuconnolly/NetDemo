@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@interface NDCommLink : NSObject <NSStreamDelegate>
+@interface NDNetworkNode : NSObject <NSStreamDelegate>
 {
 	NSHost *host;
 	NSUInteger port;

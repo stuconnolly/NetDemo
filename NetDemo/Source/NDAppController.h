@@ -28,13 +28,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDCommLink, NDLogController;
+@class NDNetworkNode, NDLogController;
 
 @interface NDAppController : NSWindowController <NSApplicationDelegate> 
-{	
-	// Core objects
-	NDCommLink *_commLink;
-	
+{		
 	// Controllers
 	IBOutlet NDLogController *_logController; 
 	

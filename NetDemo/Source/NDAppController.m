@@ -40,9 +40,7 @@
  */
 - (id)init
 {
-	if ((self = [super init])) {
-		_commLink = [[NDCommLink alloc] init];
-	}
+	if ((self = [super init])) { }
 	
 	return self;
 }
@@ -123,7 +121,7 @@
  */
 - (void)dealloc
 {
-	[_commLink release], _commLink = nil;
+	
 }
 
 @end
