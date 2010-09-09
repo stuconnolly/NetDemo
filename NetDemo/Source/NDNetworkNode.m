@@ -34,6 +34,8 @@
 
 @synthesize host;
 @synthesize port;
+@synthesize socket;
+@synthesize broker;
 
 /**
  * Init.
@@ -45,7 +47,7 @@
 		// Default to localhost
 		host = [NSHost currentHost];
 		
-		// Defaul port
+		// Default port
 		port = 1987;
 	}
 	
