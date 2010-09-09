@@ -35,4 +35,8 @@
 
 @property (readwrite, assign) NSData *data;
 
++ (NDNetMessage *)messageWithData:(NSData *)messageData;
+
+- (id)initWithData:(NSData *)messageData;
+
 @end
