@@ -30,7 +30,15 @@
 
 #import "NDNetworkClient.h"
 
+@interface NDNetworkClient (PrivateAPI)
+
+@property (readwrite, assign) BOOL isConnected;
+
+@end
+
 @implementation NDNetworkClient
+
+@synthesize isConnected;
 
 #pragma mark -
 #pragma mark Initialization
@@ -41,8 +49,9 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		isConnected = NO;
+		[self setIsConnected:NO];
 		
+		_services = [[NSMutableArray alloc] init];
 		_browser = [[NSNetServiceBrowser alloc] init];
 		
 		[_browser setDelegate:self];
@@ -53,7 +62,7 @@
 #pragma mark Public API
 
 /**
- *
+ * Start the search for available services.
  */
 - (void)search
 {
@@ -65,7 +74,11 @@
  */
 - (BOOL)connect
 {
+	NSNetService *service = [_services lastObject];
+    
+	[service setDelegate:self];
 	
+    [service resolveWithTimeout:0];
 }
 
 #pragma mark -
@@ -81,14 +94,16 @@
 	
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
-	
+	[_services addObject:service];
 }
 
-- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
+	[_services removeObject:service];
 	
+    if (service == _connectedService) [self setIsConneced:NO];
 }
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser
@@ -107,6 +122,21 @@
 }
 
 #pragma mark -
+#pragma mark NSNetService delegate methods
+
+- (void)netServiceDidResolveAddress:(NSNetService *)service
+{
+	[self setIsConnected:YES];
+	
+    _connectedService = service;
+}
+
+- (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
+{
+	NSLog(@"Could not resolve service: %@", error);
+}
+
+#pragma mark -
 #pragma mark Other
 
 /**
@@ -116,6 +146,7 @@
 {
 	_connectedService = nil;
 	
+	[_services release], _services = nil;
 	[_browser release], _browser = nil;
 	
 	[super dealloc];
