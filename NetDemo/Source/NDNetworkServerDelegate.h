@@ -28,8 +28,6 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDNetMessageBroker.h"
-
-@implementation NDNetMessageBroker
+@protocol NDNetworkServerDelegate
 
 @end

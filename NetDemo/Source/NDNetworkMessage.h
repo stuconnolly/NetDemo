@@ -28,27 +28,15 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDNetworkNode.h"
-
-@protocol NDNetworkServerDelegate;
-@class NDMessageBroker, AsyncSocket;
-
-@interface NDNetworkServer : NDNetworkNode <NSNetServiceDelegate>
+@interface NDNetworkMessage : NSObject <NSCoding> 
 {
-	id <NDNetworkServerDelegate> delegate;
-	
-	BOOL _serviceRunning;
-	
-	NSNetService *_service;
-	NDMessageBroker *_broker;
-	
-	AsyncSocket *_listeningSocket;
-	AsyncSocket *_connectionSocket;
+	NSData *data;
 }
 
-@property (readwrite, assign) id <NDNetworkServerDelegate> delegate;
+@property (readwrite, assign) NSData *data;
 
-- (BOOL)startService;
-- (BOOL)stopService;
++ (NDNetworkMessage *)messageWithData:(NSData *)messageData;
+
+- (id)initWithData:(NSData *)messageData;
 
 @end

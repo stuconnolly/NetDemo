@@ -29,8 +29,11 @@
  */
 
 #import "NDNetworkServer.h"
+#import "NDLogger.h"
 
 @implementation NDNetworkServer
+
+@synthesize delegate;
 
 #pragma mark -
 #pragma mark Initialization
@@ -58,6 +61,18 @@
 {
 	if (!_serviceRunning) {
 		
+		// Create and start the server's listening socket
+		NSError *error;
+	
+		_listeningSocket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+		
+		if (![_listeningSocket acceptOnPort:0 error:&error] ) {
+			[NDLogger logError:[NSString stringWithFormat:@"Failed to created listening socket. Error: %@", [error localizedDescription]]];
+			
+			return NO;
+		}
+		
+		// Advertise the service with Bonjour
 		_service = [[NSNetService alloc] initWithDomain:@"local." type:@"_netdemo_.tcp." name:@"" port:1987];
 		
 		[_service setDelegate:self];
@@ -75,6 +90,11 @@
 - (BOOL)stopService
 {
 	if (_serviceRunning) {
+		_listeningSocket = nil;
+		_connectionSocket = nil;
+		
+		_broker = nil;
+		
 		[_service stop];
 		[_service release], _service = nil;
 		
@@ -94,7 +114,7 @@
 
 - (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)error
 {
-	NSLog(@"Failed to publish service: %@", error);
+	[NDLogger logError:[NSString stringWithFormat:@"Failed to publish service. Error (%@): %@", [error objectForKey:NSNetServicesErrorCode], [error objectForKey:NSNetServicesErrorDomain]]];
 }
 
 - (void)netServiceDidPublish:(NSNetService *)service
@@ -120,6 +140,37 @@
 - (void)netServiceDidStop:(NSNetService *)service
 {
 	
+}
+
+#pragma mark -
+#pragma mark Socket delegate methods
+
+-(BOOL)onSocketWillConnect:(AsyncSocket *)socket
+{
+    if (!_connectionSocket) {
+        _connectionSocket = socket;
+        
+		return YES;
+    }
+	
+    return NO;
+}
+
+-(void)onSocketDidDisconnect:(AsyncSocket *)socket 
+{
+    if (socket == _connectionSocket) {
+        _connectionSocket = nil;
+        _broker = nil;
+    }
+}
+
+- (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)host port:(UInt16)port 
+{
+	NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
+    
+	[newBroker setDelegate:self];
+    
+	_broker = newBroker;
 }
 
 #pragma mark -

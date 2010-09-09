@@ -30,8 +30,12 @@
 
 #import "NDNetworkNode.h"
 
+@protocol NDNetworkClientDelegate;
+
 @interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
 {
+	id <NDNetworkClientDelegate> delegate;
+	
 	BOOL isConnected;
 	
 	NSMutableArray *_services;
@@ -39,6 +43,7 @@
     NSNetService *_connectedService;
 }
 
+@property (readwrite, assign) id <NDNetworkClientDelegate> delegate;
 @property (readonly, assign) BOOL isConnected;
 
 - (void)search;

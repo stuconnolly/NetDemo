@@ -28,9 +28,40 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@interface NDNetMessageBroker : NSObject 
-{
+#import "NDNetworkMessage.h"
 
+@implementation NDNetworkMessage
+
+@synthesize data;
+
+/**
+ *
+ */
++ (NDNetworkMessage *)messageWithData:(NSData *)messageData
+{
+	return [[[NDNetworkMessage alloc] initWithData:messageData] autorelease];
+}
+
+/**
+ *
+ */
+- (id)initWithData:(NSData *)messageData
+{
+	if ((self = [super init])) {
+		[self setData:messageData];
+	}
+	
+	return self;
+}
+
+/**
+ * Dealloc.
+ */
+- (void)dealloc
+{
+	if (data) [data dealloc], data = nil;
+	
+	[super dealloc];
 }
 
 @end

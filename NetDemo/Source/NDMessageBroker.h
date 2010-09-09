@@ -28,15 +28,13 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@interface NDNetMessage : NSObject <NSCoding> 
+@protocol NDMessageBrokerDelegate;
+
+@interface NDMessageBroker : NSObject 
 {
-	NSData *data;
+	id <NDMessageBrokerDelegate> delegate;
 }
 
-@property (readwrite, assign) NSData *data;
-
-+ (NDNetMessage *)messageWithData:(NSData *)messageData;
-
-- (id)initWithData:(NSData *)messageData;
+@property (readwrite, assign) id <NDMessageBrokerDelegate> delegate; 
 
 @end

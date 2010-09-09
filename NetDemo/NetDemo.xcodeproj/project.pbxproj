@@ -10,8 +10,8 @@
 		17892D49123162F2002FD07B /* NDLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 17892D48123162F2002FD07B /* NDLogger.m */; };
 		17892D6612316B0E002FD07B /* NDNetworkNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 17892D6512316B0E002FD07B /* NDNetworkNode.m */; };
 		17892E2612319B55002FD07B /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 17892E2512319B55002FD07B /* AsyncSocket.m */; };
-		17892E2B12319B95002FD07B /* NDNetMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17892E2A12319B95002FD07B /* NDNetMessage.m */; };
-		17A0AE551239301200F903F4 /* NDNetMessageBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A0AE541239301200F903F4 /* NDNetMessageBroker.m */; };
+		17892E2B12319B95002FD07B /* NDNetworkMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17892E2A12319B95002FD07B /* NDNetworkMessage.m */; };
+		17A0AE551239301200F903F4 /* NDMessageBroker.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A0AE541239301200F903F4 /* NDMessageBroker.m */; };
 		17C6A3CE12302A0300E444D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C6A3CC12302A0300E444D9 /* main.m */; };
 		17C6A4AB1230592600E444D9 /* NDLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C6A4AA1230592600E444D9 /* NDLogController.m */; };
 		17C6A57A1231586F00E444D9 /* NDLogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C6A5791231586F00E444D9 /* NDLogMessage.m */; };
@@ -30,10 +30,13 @@
 		17892D6512316B0E002FD07B /* NDNetworkNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkNode.m; sourceTree = "<group>"; };
 		17892E2412319B55002FD07B /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
 		17892E2512319B55002FD07B /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
-		17892E2912319B95002FD07B /* NDNetMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetMessage.h; sourceTree = "<group>"; };
-		17892E2A12319B95002FD07B /* NDNetMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetMessage.m; sourceTree = "<group>"; };
-		17A0AE531239301200F903F4 /* NDNetMessageBroker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetMessageBroker.h; sourceTree = "<group>"; };
-		17A0AE541239301200F903F4 /* NDNetMessageBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetMessageBroker.m; sourceTree = "<group>"; };
+		17892E2912319B95002FD07B /* NDNetworkMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkMessage.h; sourceTree = "<group>"; };
+		17892E2A12319B95002FD07B /* NDNetworkMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkMessage.m; sourceTree = "<group>"; };
+		17A0AE531239301200F903F4 /* NDMessageBroker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDMessageBroker.h; sourceTree = "<group>"; };
+		17A0AE541239301200F903F4 /* NDMessageBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDMessageBroker.m; sourceTree = "<group>"; };
+		17A0AEAA1239929C00F903F4 /* NDMessageBrokerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDMessageBrokerDelegate.h; sourceTree = "<group>"; };
+		17A0AEBE1239A41B00F903F4 /* NDNetworkServerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkServerDelegate.h; sourceTree = "<group>"; };
+		17A0AEBF1239A45800F903F4 /* NDNetworkClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkClientDelegate.h; sourceTree = "<group>"; };
 		17C6A3CC12302A0300E444D9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		17C6A3CD12302A0300E444D9 /* NetDemo.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDemo.pch; sourceTree = "<group>"; };
 		17C6A3CF12302A1F00E444D9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
@@ -113,9 +116,10 @@
 				17D508EE1235A2200091C008 /* NDNetworkClient.m */,
 				17D508F01235A22C0091C008 /* NDNetworkServer.h */,
 				17D508F11235A22C0091C008 /* NDNetworkServer.m */,
-				17A0AE531239301200F903F4 /* NDNetMessageBroker.h */,
-				17A0AE541239301200F903F4 /* NDNetMessageBroker.m */,
+				17A0AE531239301200F903F4 /* NDMessageBroker.h */,
+				17A0AE541239301200F903F4 /* NDMessageBroker.m */,
 				17C6A5771231585900E444D9 /* Model */,
+				17A0AEA912398E4A00F903F4 /* Protocols */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -127,6 +131,16 @@
 				17892E2512319B55002FD07B /* AsyncSocket.m */,
 			);
 			name = "Third Party";
+			sourceTree = "<group>";
+		};
+		17A0AEA912398E4A00F903F4 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				17A0AEBF1239A45800F903F4 /* NDNetworkClientDelegate.h */,
+				17A0AEBE1239A41B00F903F4 /* NDNetworkServerDelegate.h */,
+				17A0AEAA1239929C00F903F4 /* NDMessageBrokerDelegate.h */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		17C6A3B31230298100E444D9 /* Interfaces */ = {
@@ -153,8 +167,8 @@
 			children = (
 				17C6A5781231586F00E444D9 /* NDLogMessage.h */,
 				17C6A5791231586F00E444D9 /* NDLogMessage.m */,
-				17892E2912319B95002FD07B /* NDNetMessage.h */,
-				17892E2A12319B95002FD07B /* NDNetMessage.m */,
+				17892E2912319B95002FD07B /* NDNetworkMessage.h */,
+				17892E2A12319B95002FD07B /* NDNetworkMessage.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -257,10 +271,10 @@
 				17892D49123162F2002FD07B /* NDLogger.m in Sources */,
 				17892D6612316B0E002FD07B /* NDNetworkNode.m in Sources */,
 				17892E2612319B55002FD07B /* AsyncSocket.m in Sources */,
-				17892E2B12319B95002FD07B /* NDNetMessage.m in Sources */,
+				17892E2B12319B95002FD07B /* NDNetworkMessage.m in Sources */,
 				17D508EF1235A2200091C008 /* NDNetworkClient.m in Sources */,
 				17D508F21235A22C0091C008 /* NDNetworkServer.m in Sources */,
-				17A0AE551239301200F903F4 /* NDNetMessageBroker.m in Sources */,
+				17A0AE551239301200F903F4 /* NDMessageBroker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

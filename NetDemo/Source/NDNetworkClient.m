@@ -38,6 +38,7 @@
 
 @implementation NDNetworkClient
 
+@synthesize delegate;
 @synthesize isConnected;
 
 #pragma mark -

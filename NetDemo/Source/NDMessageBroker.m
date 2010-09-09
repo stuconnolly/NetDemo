@@ -28,40 +28,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDNetMessage.h"
+#import "NDMessageBroker.h"
 
-@implementation NDNetMessage
+@implementation NDMessageBroker
 
-@synthesize data;
-
-/**
- *
- */
-+ (NDNetMessage *)messageWithData:(NSData *)messageData
-{
-	return [[[NDNetMessage alloc] initWithData:messageData] autorelease];
-}
-
-/**
- *
- */
-- (id)initWithData:(NSData *)messageData
-{
-	if ((self = [super init])) {
-		[self setData:messageData];
-	}
-	
-	return self;
-}
-
-/**
- * Dealloc.
- */
-- (void)dealloc
-{
-	if (data) [data dealloc], data = nil;
-	
-	[super dealloc];
-}
+@synthesize delegate;
 
 @end

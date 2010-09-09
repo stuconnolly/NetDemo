@@ -37,7 +37,7 @@
 
 - (void)clearLog;
 
-- (void)log:(NSString *)message;
-- (void)logError:(NSString *)message;
++ (void)log:(NSString *)message;
++ (void)logError:(NSString *)message;
 
 @end

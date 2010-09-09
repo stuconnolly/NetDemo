@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDNetMessageBroker, AsyncSocket;
+@class NDMessageBroker, AsyncSocket;
 
 @interface NDNetworkNode : NSObject <NSStreamDelegate>
 {
@@ -36,14 +36,14 @@
 	NSUInteger port;
 	
 	AsyncSocket *socket;
-    NDNetMessageBroker *broker;
+    NDMessageBroker *broker;
 }
 
 @property (readwrite, retain) NSHost *host;
 @property (readwrite, assign) NSUInteger port;
 
 @property (readwrite, retain) AsyncSocket *socket;
-@property (readwrite, retain) NDNetMessageBroker *broker;
+@property (readwrite, retain) NDMessageBroker *broker;
 
 - (BOOL)initStreams;
 

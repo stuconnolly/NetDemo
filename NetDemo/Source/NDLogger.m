@@ -83,21 +83,21 @@ static NDLogger *logger = nil;
 /**
  * Logs the supplied message.
  */
-- (void)log:(NSString *)message
++ (void)log:(NSString *)message
 {	
-	[logMessages addObject:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	[[[NDLogger logger] logMessages] addObject:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
 }
 
 /**
  * Logs the supplied message.
  */
-- (void)logError:(NSString *)message
++ (void)logError:(NSString *)message
 {	
 	NDLogMessage *logMessage = [NDLogMessage logMessageWithMessage:message date:[NSDate date]];
 	
 	[logMessage setIsError:YES];
 	
-	[logMessages addObject:logMessage];
+	[[[NDLogger logger] logMessages] addObject:logMessage];	
 }
 
 /**
