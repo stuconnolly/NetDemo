@@ -32,4 +32,93 @@
 
 @implementation NDNetworkClient
 
+#pragma mark -
+#pragma mark Initialization
+
+/**
+ * Init.
+ */
+- (id)init
+{
+	if ((self = [super init])) {
+		isConnected = NO;
+		
+		_browser = [[NSNetServiceBrowser alloc] init];
+		
+		[_browser setDelegate:self];
+	}
+}
+
+#pragma mark -
+#pragma mark Public API
+
+/**
+ *
+ */
+- (void)search
+{
+	[_browser searchForServicesOfType:@"_netdemo_.tcp." inDomain:@""];
+}
+
+/**
+ *
+ */
+- (BOOL)connect
+{
+	
+}
+
+#pragma mark -
+#pragma mark NSNetServiceBrowser delegate methods
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
+{
+	
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
+{
+	
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+{
+	
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
+{
+	
+}
+
+- (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser
+{
+	
+}
+
+- (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didNotSearch:(NSDictionary *)error
+{
+	
+}
+
+- (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
+{
+	
+}
+
+#pragma mark -
+#pragma mark Other
+
+/**
+ * Dealloc.
+ */
+- (void)dealloc
+{
+	_connectedService = nil;
+	
+	[_browser release], _browser = nil;
+	
+	[super dealloc];
+}
+
 @end

@@ -30,6 +30,17 @@
 
 #import "NDNetworkNode.h"
 
-@interface NDNetworkClient : NDNetworkNode
+@interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
+{
+	BOOL isConnected;
+	
+	NSNetServiceBrowser *_browser;
+    NSNetService *_connectedService;
+}
+
+@property (readonly, assign) BOOL isConnected;
+
+- (void)search;
+- (BOOL)connect;
 
 @end

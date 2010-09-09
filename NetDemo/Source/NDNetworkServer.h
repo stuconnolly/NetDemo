@@ -30,6 +30,14 @@
 
 #import "NDNetworkNode.h"
 
-@interface NDNetworkServer : NDNetworkNode
+@interface NDNetworkServer : NDNetworkNode <NSNetServiceDelegate>
+{
+	BOOL _serviceRunning;
+	
+	NSNetService *_service;
+}
+
+- (BOOL)startService;
+- (BOOL)stopService;
 
 @end

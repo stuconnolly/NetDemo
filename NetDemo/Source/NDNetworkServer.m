@@ -32,4 +32,107 @@
 
 @implementation NDNetworkServer
 
+#pragma mark -
+#pragma mark Initialization
+
+/**
+ * Init.
+ */
+- (id)init
+{
+	if ((self = [super init])) {
+		
+		_serviceRunning = NO;		
+	}
+	
+	return self;
+}
+
+#pragma mark -
+#pragma mark Public API
+
+/**
+ *
+ */
+- (BOOL)startService
+{
+	if (!_serviceRunning) {
+		
+		_service = [[NSNetService alloc] initWithDomain:@"local." type:@"_netdemo_.tcp." name:@"" port:1987];
+		
+		[_service setDelegate:self];
+		[_service publish];
+		
+		_serviceRunning = YES;
+	}
+	
+	return _serviceRunning;
+}
+
+/**
+ *
+ */
+- (BOOL)stopService
+{
+	if (_serviceRunning) {
+		[_service stop];
+		[_service release], _service = nil;
+		
+		_serviceRunning = NO;
+	}
+	
+	return _serviceRunning;
+}
+
+#pragma mark -
+#pragma mark NSNetService delegate methods
+
+- (void)netServiceWillPublish:(NSNetService *)service
+{
+	
+}
+
+- (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)error
+{
+	NSLog(@"Failed to publish service: %@", error);
+}
+
+- (void)netServiceDidPublish:(NSNetService *)service
+{
+	
+}
+
+- (void)netServiceWillResolve:(NSNetService *)service
+{
+	
+}
+
+- (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
+{
+	
+}
+
+- (void)netServiceDidResolveAddress:(NSNetService *)service
+{
+	
+}
+
+- (void)netServiceDidStop:(NSNetService *)service
+{
+	
+}
+
+#pragma mark -
+#pragma mark Other
+
+/**
+ * Dealloc.
+ */
+- (void)dealloc
+{
+	[self stopService];
+		
+	[super dealloc];
+}
+
 @end
