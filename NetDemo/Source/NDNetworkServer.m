@@ -182,7 +182,9 @@
 {
 	NSLog(@"received, sending to delegate.");
 	
-	
+	if (delegate && [delegate respondsToSelector:@selector(networkServer:didRecieveMessage:)]) {
+		[delegate networkServer:self didRecieveMessage:message];
+	}
 }
 
 #pragma mark -
