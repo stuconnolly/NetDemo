@@ -33,9 +33,6 @@
 @implementation NDNetworkNode
 
 @synthesize host;
-@synthesize port;
-@synthesize socket;
-@synthesize broker;
 
 /**
  * Init.
@@ -45,10 +42,7 @@
 	if ((self = [super init])) {
 		
 		// Default to localhost
-		host = [NSHost currentHost];
-		
-		// Default port
-		port = 1987;
+		host = [NSHost currentHost];		
 	}
 	
 	return self;

@@ -32,6 +32,9 @@
 
 @protocol NDLoggerDelegate
 
+/**
+ *
+ */
 - (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message;
 
 @end
