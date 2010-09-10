@@ -28,6 +28,13 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@class NDMessageBroker, NDNetworkMessage;
+
 @protocol NDNetworkServerDelegate
+
+/**
+ *
+ */
+- (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message;
 
 @end

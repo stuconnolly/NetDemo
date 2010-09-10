@@ -29,6 +29,8 @@
  */
 
 #import "NDNetworkServer.h"
+#import "NDMessageBroker.h"
+#import "NDNetworkMessage.h"
 #import "NDLogger.h"
 
 @implementation NDNetworkServer
@@ -171,6 +173,16 @@
 	[newBroker setDelegate:self];
     
 	_broker = newBroker;
+}
+
+#pragma mark -
+#pragma mark Broker delegate methods
+
+- (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message
+{
+	NSLog(@"received, sending to delegate.");
+	
+	
 }
 
 #pragma mark -

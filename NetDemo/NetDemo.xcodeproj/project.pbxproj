@@ -36,7 +36,6 @@
 		17A0AE541239301200F903F4 /* NDMessageBroker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDMessageBroker.m; sourceTree = "<group>"; };
 		17A0AEAA1239929C00F903F4 /* NDMessageBrokerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDMessageBrokerDelegate.h; sourceTree = "<group>"; };
 		17A0AEBE1239A41B00F903F4 /* NDNetworkServerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkServerDelegate.h; sourceTree = "<group>"; };
-		17A0AEBF1239A45800F903F4 /* NDNetworkClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkClientDelegate.h; sourceTree = "<group>"; };
 		17C6A3CC12302A0300E444D9 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		17C6A3CD12302A0300E444D9 /* NetDemo.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetDemo.pch; sourceTree = "<group>"; };
 		17C6A3CF12302A1F00E444D9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Resources/Info.plist; sourceTree = "<group>"; };
@@ -136,7 +135,6 @@
 		17A0AEA912398E4A00F903F4 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				17A0AEBF1239A45800F903F4 /* NDNetworkClientDelegate.h */,
 				17A0AEBE1239A41B00F903F4 /* NDNetworkServerDelegate.h */,
 				17A0AEAA1239929C00F903F4 /* NDMessageBrokerDelegate.h */,
 			);

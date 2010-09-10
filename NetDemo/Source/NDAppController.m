@@ -29,6 +29,8 @@
  */
 
 #import "NDAppController.h"
+#import "NDNetworkServer.h"
+#import "NDNetworkMessage.h"
 
 @implementation NDAppController
 
@@ -90,7 +92,15 @@
 }
 
 #pragma mark -
-#pragma mark Delegate methods
+#pragma mark Server delegate methods
+
+- (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
+{
+	
+}
+
+#pragma mark -
+#pragma mark General delegate methods
 
 /**
  * Called when the set comm port sheet is dismissed.

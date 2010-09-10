@@ -29,8 +29,9 @@
  */
 
 @class NDNetworkNode, NDLogController;
+@protocol NDNetworkServerDelegate;
 
-@interface NDAppController : NSWindowController <NSApplicationDelegate> 
+@interface NDAppController : NSWindowController <NSApplicationDelegate, NDNetworkServerDelegate> 
 {		
 	// Controllers
 	IBOutlet NDLogController *_logController; 
