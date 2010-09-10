@@ -91,12 +91,6 @@
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-	/*[NSApp beginSheet:portPanel 
-	   modalForWindow:[self window] 
-		modalDelegate:self 
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo:nil];*/
-	
 	[self showNetworkLog:self];
 	
 	[_server setPort:[portTextField integerValue]];
@@ -128,9 +122,11 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	// Set the port and start the server
+	// Set the port and restart the server
 	if (returnCode == NSOKButton) {
-				
+		[_server stopService];
+		[_server setPort:[portTextField integerValue]];
+		[_server startService];
 	}
 }
 

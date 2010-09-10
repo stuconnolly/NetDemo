@@ -71,12 +71,13 @@
 		
 		NDLog(@"Starting server listening socket");
 		
-		if (![_listeningSocket acceptOnPort:0 error:&error] ) {
+		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
 			NDLogError([NSString stringWithFormat:@"Failed to created listening socket. Error: %@", [error localizedDescription]]);
 						
 			return NO;
 		}
 				
+		NDLog(@"Server is now listening for connections");
 		NDLog([NSString stringWithFormat:@"Publishing Bonjour (Zeroconf) service to advertise server on port %d.", [_listeningSocket localPort]]);
 		
 		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];

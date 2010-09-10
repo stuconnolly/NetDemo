@@ -30,6 +30,13 @@
 
 #import "NDNetworkNode.h"
 
+/**
+ * @class NDNetworkClient NDNetworkClient.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * 
+ */
 @interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
 {	
 	BOOL isConnected;
@@ -39,6 +46,9 @@
     NSNetService *_connectedService;
 }
 
+/**
+ * @property isConnected Indicates whether or not the client is connected to the server
+ */
 @property (readonly, assign) BOOL isConnected;
 
 - (void)search;

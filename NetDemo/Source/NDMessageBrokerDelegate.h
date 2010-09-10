@@ -42,4 +42,9 @@
  */
 - (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message;
 
+/**
+ *
+ */
+-(void)messageBrokerDidDisconnectUnexpectedly:(NDNetworkMessage *)server;
+
 @end

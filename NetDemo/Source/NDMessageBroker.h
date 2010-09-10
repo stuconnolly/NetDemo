@@ -28,11 +28,17 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@class AsyncSocket;
 @protocol NDMessageBrokerDelegate;
 
 @interface NDMessageBroker : NSObject 
 {
 	id <NDMessageBrokerDelegate> delegate;
+
+	AsyncSocket *socket;
+	NSMutableArray *messageQueue;
+	
+    BOOL connectionLostUnexpectedly;
 }
 
 @property (readwrite, assign) id <NDMessageBrokerDelegate> delegate; 

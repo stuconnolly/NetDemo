@@ -28,11 +28,27 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @class NDNetworkNode NDNetworkNode.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * General network node base class.
+ */
 @interface NDNetworkNode : NSObject <NSStreamDelegate>
 {
 	NSHost *host;
+	NSUInteger port;
 }
 
+/**
+ * @property host The host this node resides on
+ */
 @property (readwrite, retain) NSHost *host;
+
+/**
+ * @property port
+ */
+@property (readwrite, assign) NSUInteger port;
 
 @end

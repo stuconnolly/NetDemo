@@ -33,6 +33,7 @@
 @implementation NDNetworkNode
 
 @synthesize host;
+@synthesize port;
 
 /**
  * Init.
