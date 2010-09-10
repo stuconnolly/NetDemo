@@ -30,6 +30,7 @@
 
 #import "NDLogController.h"
 #import "NDLogMessage.h"
+#import "NDNetworkMessage.h"
 #import "NDLogger.h"
 
 @implementation NDLogController
@@ -54,6 +55,8 @@
 	{
 		[[column dataCell] setFont:[NSFont fontWithName:@"Courier" size:12.0]];
 	}	
+	
+	[[NDLogger logger] setDelegate:self];
 }
 
 #pragma mark -
@@ -87,7 +90,7 @@
  */
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return [[NDLogger logMessages] count];
+	return [[[NDLogger logger] logMessages] count];
 }
 
 /**
@@ -98,16 +101,24 @@
 	NSString *returnValue = nil;
 	NSMutableDictionary *stringAtributes = nil;
 	
-	id object = [[[NDLogger logMessages] objectAtIndex:row] valueForKey:[tableColumn identifier]];
+	id object = [[[[NDLogger logger] logMessages] objectAtIndex:row] valueForKey:[tableColumn identifier]];
 	
 	returnValue = ([[tableColumn identifier] isEqualToString:@"messageDate"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : object;
 	
 	// If this is an error message give it a red colour
-	if ([(NDLogMessage *)[[NDLogger logMessages] objectAtIndex:row] isError]) {
+	if ([(NDLogMessage *)[[[NDLogger logger] logMessages] objectAtIndex:row] isError]) {
 		stringAtributes = [NSMutableDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
 	}
 	
 	return [[[NSAttributedString alloc] initWithString:returnValue attributes:stringAtributes] autorelease];
+}
+
+#pragma mark -
+#pragma mark Logger delegate methods
+
+- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message
+{	
+	[logMessagesTableView reloadData];
 }
 
 #pragma mark -

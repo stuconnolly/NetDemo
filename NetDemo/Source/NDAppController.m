@@ -42,7 +42,11 @@
  */
 - (id)init
 {
-	if ((self = [super init])) { }
+	if ((self = [super init])) {
+		
+		_server = [[NDNetworkServer alloc] init];
+		_client = [[NDNetworkClient alloc] init];
+	}
 	
 	return self;
 }
@@ -79,16 +83,33 @@
 	[[sender window] orderOut:self];
 }
 
+#pragma mark -
+#pragma mark Application notifications
+
 /**
- * Called when the application finishes launching, opens the set port sheet.
+ * Called when the application finishes launching.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-	[NSApp beginSheet:portPanel 
+	/*[NSApp beginSheet:portPanel 
 	   modalForWindow:[self window] 
 		modalDelegate:self 
 	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo:nil];
+		  contextInfo:nil];*/
+	
+	[self showNetworkLog:self];
+	
+	[_server setPort:[portTextField integerValue]];
+	
+	[_server startService];
+}
+
+/**
+ * Called when the application is about to terminate.
+ */
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	[_server stopService];
 }
 
 #pragma mark -
@@ -107,9 +128,9 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	// Set the port
+	// Set the port and start the server
 	if (returnCode == NSOKButton) {
-		
+				
 	}
 }
 
@@ -131,7 +152,8 @@
  */
 - (void)dealloc
 {
-	
+	[_server release], _server = nil;
+	[_client release], _client = nil;
 }
 
 @end

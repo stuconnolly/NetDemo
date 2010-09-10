@@ -28,13 +28,17 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDNetworkNode, NDLogController;
 @protocol NDNetworkServerDelegate;
+@class NDNetworkServer, NDNetworkClient, NDLogController;
 
 @interface NDAppController : NSWindowController <NSApplicationDelegate, NDNetworkServerDelegate> 
 {		
+	// Core instances
+	NDNetworkServer *_server;
+	NDNetworkClient *_client;
+	
 	// Controllers
-	IBOutlet NDLogController *_logController; 
+	IBOutlet NDLogController *_logController;
 	
 	// Panels
 	IBOutlet NSPanel *portPanel;

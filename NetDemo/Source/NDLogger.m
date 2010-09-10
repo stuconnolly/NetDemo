@@ -35,7 +35,11 @@ static NDLogger *logger = nil;
 
 @implementation NDLogger
 
+@synthesize delegate;
 @synthesize logMessages;
+
+#pragma mark -
+#pragma mark Initialisation
 
 /*
  * Returns the shared query console.
@@ -56,6 +60,18 @@ static NDLogger *logger = nil;
 	@synchronized(self) {
 		return [[self logger] retain];
 	}
+}
+
+/**
+ * Init.
+ */
+- (id)init
+{
+	if ((self = [super init])) {
+		logMessages = [[NSMutableArray alloc] init];
+	}
+	
+	return self;
 }
 
 /*
@@ -80,25 +96,39 @@ static NDLogger *logger = nil;
 	[logMessages removeAllObjects];
 }
 
+#pragma mark -
+#pragma mark Public API
+
 /**
  * Logs the supplied message.
  */
-+ (void)log:(NSString *)message
-{	
+void NDLog(NSString *message)
+{		
 	[[[NDLogger logger] logMessages] addObject:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	
+	if ([[NDLogger logger] delegate] && [[[NDLogger logger] delegate] respondsToSelector:@selector(logger:updatedWithMessage:)]) {
+		[[[NDLogger logger] delegate] logger:[NDLogger logger] updatedWithMessage:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	}
 }
 
 /**
  * Logs the supplied message.
  */
-+ (void)logError:(NSString *)message
-{	
+void NDLogError(NSString *message)
+{		
 	NDLogMessage *logMessage = [NDLogMessage logMessageWithMessage:message date:[NSDate date]];
 	
 	[logMessage setIsError:YES];
 	
-	[[[NDLogger logger] logMessages] addObject:logMessage];	
+	[[[NDLogger logger] logMessages] addObject:logMessage];
+	
+	if ([[NDLogger logger] delegate] && [[[NDLogger logger] delegate] respondsToSelector:@selector(logger:updatedWithMessage:)]) {
+		[[[NDLogger logger] delegate] logger:[NDLogger logger] updatedWithMessage:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	}
 }
+
+#pragma mark -
+#pragma mark Other
 
 /**
  * Dealloc.

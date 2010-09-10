@@ -28,21 +28,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@protocol NDLoggerDelegate;
+@class NDLogger, NDNetworkMessage;
 
-@interface NDLogger : NSObject 
-{
-	id <NDLoggerDelegate> delegate;
-	
-	NSMutableArray *logMessages;
-}
+@protocol NDLoggerDelegate
 
-@property (readwrite, assign) id <NDLoggerDelegate> delegate;
-@property (readonly) NSMutableArray *logMessages;
-
-void NDLog(NSString *message);
-void NDLogError(NSString *message);
-
-- (void)clearLog;
+- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message;
 
 @end

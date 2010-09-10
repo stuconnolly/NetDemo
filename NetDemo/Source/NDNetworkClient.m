@@ -49,7 +49,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		[self setIsConnected:NO];
+		isConnected = NO;
 		
 		_services = [[NSMutableArray alloc] init];
 		_browser = [[NSNetServiceBrowser alloc] init];

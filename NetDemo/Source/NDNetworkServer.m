@@ -57,7 +57,8 @@
 #pragma mark Public API
 
 /**
- *
+ * Starts the network server by creating a socket to listen for connections and publishing the service via
+ * Bonjour (Zeroconf).
  */
 - (BOOL)startService
 {
@@ -66,19 +67,30 @@
 		// Create and start the server's listening socket
 		NSError *error;
 	
-		_listeningSocket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+		_listeningSocket = [[AsyncSocket alloc] initWithDelegate:self];
+		
+		NDLog(@"Starting server listening socket");
 		
 		if (![_listeningSocket acceptOnPort:0 error:&error] ) {
-			[NDLogger logError:[NSString stringWithFormat:@"Failed to created listening socket. Error: %@", [error localizedDescription]]];
-			
+			NDLogError([NSString stringWithFormat:@"Failed to created listening socket. Error: %@", [error localizedDescription]]);
+						
 			return NO;
 		}
+				
+		NDLog([NSString stringWithFormat:@"Publishing Bonjour (Zeroconf) service to advertise server on port %d.", [_listeningSocket localPort]]);
+		
+		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
 		// Advertise the service with Bonjour
-		_service = [[NSNetService alloc] initWithDomain:@"local." type:@"_netdemo_.tcp." name:@"" port:1987];
+		_service = [[NSNetService alloc] initWithDomain:@"local." type:@"_netdemo._tcp." name:serviceName port:[_listeningSocket localPort]];
 		
-		[_service setDelegate:self];
-		[_service publish];
+		if (_service) {
+			[_service setDelegate:self];
+			[_service publish];
+		}
+		else {
+			NDLogError(@"Error initializing NSNetService instance");
+		}
 		
 		_serviceRunning = YES;
 	}
@@ -87,12 +99,16 @@
 }
 
 /**
- *
+ * Stops the network server.
  */
 - (BOOL)stopService
 {
 	if (_serviceRunning) {
-		_listeningSocket = nil;
+		
+		if (_listeningSocket) {
+			[_listeningSocket release], _listeningSocket = nil; 
+		}
+		
 		_connectionSocket = nil;
 		
 		_broker = nil;
@@ -111,37 +127,32 @@
 
 - (void)netServiceWillPublish:(NSNetService *)service
 {
-	
+	NDLog([NSString stringWithFormat:@"Publising server service '%@' on domain '%@'.", [service name], [service domain]]);
 }
 
 - (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)error
 {
-	[NDLogger logError:[NSString stringWithFormat:@"Failed to publish service. Error (%@): %@", [error objectForKey:NSNetServicesErrorCode], [error objectForKey:NSNetServicesErrorDomain]]];
+	NDLogError([NSString stringWithFormat:@"Failed to publish server service. Error code %@", [error objectForKey:NSNetServicesErrorCode]]);
 }
 
 - (void)netServiceDidPublish:(NSNetService *)service
 {
-	
-}
-
-- (void)netServiceWillResolve:(NSNetService *)service
-{
-	
-}
-
-- (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
-{
-	
-}
-
-- (void)netServiceDidResolveAddress:(NSNetService *)service
-{
-	
+	NDLog([NSString stringWithFormat:@"Published server service '%@' on domain '%@'.", [service name], [service domain]]);
 }
 
 - (void)netServiceDidStop:(NSNetService *)service
 {
-	
+	NDLog([NSString stringWithFormat:@"Stopped server service '%@' on domain '%@'.", [service name], [service domain]]);
+}
+
+- (void)netServiceWillResolve:(NSNetService *)service
+{
+	NDLog([NSString stringWithFormat:@"Resolving service: %@", service]);
+}
+	 
+- (void)netServiceDidResolveAddress:(NSNetService *)service
+{
+	NDLog([NSString stringWithFormat:@"Resolved service: %@", service]);
 }
 
 #pragma mark -
@@ -149,6 +160,8 @@
 
 -(BOOL)onSocketWillConnect:(AsyncSocket *)socket
 {
+	NSLog(@"socket connecting");
+	
     if (!_connectionSocket) {
         _connectionSocket = socket;
         
@@ -158,8 +171,10 @@
     return NO;
 }
 
--(void)onSocketDidDisconnect:(AsyncSocket *)socket 
+- (void)onSocketDidDisconnect:(AsyncSocket *)socket 
 {
+	NSLog(@"socket disconnect");
+	
     if (socket == _connectionSocket) {
         _connectionSocket = nil;
         _broker = nil;
@@ -168,6 +183,8 @@
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)host port:(UInt16)port 
 {
+	NSLog(@"socket connect to host");
+	
 	NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
     
 	[newBroker setDelegate:self];
@@ -175,13 +192,16 @@
 	_broker = newBroker;
 }
 
+- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
+{
+	NSLog(@"socket error: %@", error);
+}
+
 #pragma mark -
 #pragma mark Broker delegate methods
 
 - (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message
-{
-	NSLog(@"received, sending to delegate.");
-	
+{	
 	if (delegate && [delegate respondsToSelector:@selector(networkServer:didRecieveMessage:)]) {
 		[delegate networkServer:self didRecieveMessage:message];
 	}
