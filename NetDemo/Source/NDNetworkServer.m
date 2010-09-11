@@ -107,7 +107,8 @@
 {
 	if (_serviceRunning) {
 		
-		if (_listeningSocket) {
+		if ([_listeningSocket isConnected]) {
+			[_listeningSocket disconnect];
 			[_listeningSocket release], _listeningSocket = nil; 
 		}
 		
@@ -177,11 +178,11 @@
 {
 	NDLog(self, @"Server socket connected to host '%@' on port ", hostName, hostPort);
 	
-	/*NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
+	NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
     
 	[newBroker setDelegate:self];
     
-	_broker = newBroker;*/
+	_broker = newBroker;
 }
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error

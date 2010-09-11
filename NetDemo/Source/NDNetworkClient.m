@@ -198,7 +198,7 @@
 {
 	NDLog(self, @"Client resolved service '%@' of type '%@' in domain '%@' from host '%@'", [service name], [service type], [service domain], [service hostName]);
 	
-    NSError *error;
+    NSError *error = nil;
     
 	_connectedService = service;
     
@@ -215,9 +215,7 @@
 	formatted = inet_ntop(AF_INET, &(address_sin->sin_addr), buffer, sizeof(buffer));
 	NSLog(@"%s", formatted);*/
 		
-	if (error) {
-		NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", error);
-	}
+	if (error) NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", error);
 }
 
 - (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
@@ -234,6 +232,8 @@
 - (void)dealloc
 {
 	_connectedService = nil;
+	
+	if ([_socket isConnected]) [_socket disconnect];
 	
 	[_services release], _services = nil;
 	[_browser release], _browser = nil;

@@ -43,16 +43,18 @@
 {
 	id <NDMessageBrokerDelegate> delegate;
 
-	AsyncSocket *socket;
-	NSMutableArray *messageQueue;
+	AsyncSocket *_socket;
+	NSMutableArray *_messageQueue;
 	
-    BOOL connectionLostUnexpectedly;
+    BOOL _connectionLostUnexpectedly;
 }
 
 /**
  * @property delegate The message broker's delegate
  */
 @property (readwrite, assign) id <NDMessageBrokerDelegate> delegate;
+
+- (id)initWithSocket:(AsyncSocket *)socket;
 
 - (void)sendMessage:(NDNetworkMessage *)message;
 

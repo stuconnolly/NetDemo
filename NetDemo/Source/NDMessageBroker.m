@@ -38,12 +38,47 @@
 
 /**
  *
+ */
+- (id)initWithSocket:(AsyncSocket *)socket
+{
+	if ((self = [super init])) {
+		
+		if ([socket canSafelySetDelegate]) {
+			_socket = [socket retain];
+			[_socket setDelegate:self];
+			
+			_messageQueue = [[NSMutableArray alloc] init];
+			
+			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:0];
+		}
+		else {
+			self = nil;
+		}
+		
+	}
+	
+	return self;
+}
+
+/**
+ *
  *
  * @param message
  */
 - (void)sendMessage:(NDNetworkMessage *)message
 {
 	NDLog(self, @"Message broker sending message: %@", message);
+}
+
+/**
+ * Dealloc.
+ */
+- (void)dealloc
+{
+	if ([_socket isConnected]) [_socket disconnect];
+	
+	[_socket release], _socket = nil;
+	[_messageQueue release], _messageQueue = nil;
 }
 
 @end
