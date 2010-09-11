@@ -120,7 +120,10 @@
 
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
-	
+	[outputTextView setEditable:YES];
+	[outputTextView setString:@""];
+	[outputTextView setString:@"TEST"];
+	[outputTextView setEditable:NO];
 }
 
 #pragma mark -

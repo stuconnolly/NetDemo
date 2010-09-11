@@ -45,7 +45,7 @@
  * @param server
  * @param message
  */
-- (void)messageBroker:(NDMessageBroker *)server didSendMessage:(NDNetworkMessage *)message;
+- (void)messageBroker:(NDMessageBroker *)broker didSendMessage:(NDNetworkMessage *)message;
 
 /**
  *
@@ -53,7 +53,7 @@
  * @param server
  * @param message
  */
-- (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message;
+- (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message;
 
 /**
  *
@@ -61,6 +61,6 @@
  * @param server
  * @param message
  */
--(void)messageBrokerDidDisconnectUnexpectedly:(NDNetworkMessage *)server;
+-(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker;
 
 @end

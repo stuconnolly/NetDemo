@@ -187,13 +187,18 @@
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
-	NDLogError(self, @"Server socket error: %@", error);
+	NDLogError(self, @"Server socket disconnected with error: %@", error);
 }
 
 #pragma mark -
 #pragma mark Broker delegate methods
 
-- (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message
+-(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker
+{
+	NDLogError(self, @"Server message broker unexpectedly disconnected");
+}
+
+- (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message
 {	
 	if (delegate && [delegate respondsToSelector:@selector(networkServer:didRecieveMessage:)]) {
 		[delegate networkServer:self didRecieveMessage:message];

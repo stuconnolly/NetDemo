@@ -36,6 +36,9 @@
 
 @synthesize delegate;
 
+#pragma mark -
+#pragma mark Initialisation
+
 /**
  *
  */
@@ -44,7 +47,11 @@
 	if ((self = [super init])) {
 		
 		if ([socket canSafelySetDelegate]) {
+			
+			_connectionLostUnexpectedly = NO;
+			
 			_socket = [socket retain];
+			
 			[_socket setDelegate:self];
 			
 			_messageQueue = [[NSMutableArray alloc] init];
@@ -60,6 +67,9 @@
 	return self;
 }
 
+#pragma mark -
+#pragma mark Public API
+
 /**
  *
  *
@@ -68,7 +78,87 @@
 - (void)sendMessage:(NDNetworkMessage *)message
 {
 	NDLog(self, @"Message broker sending message: %@", message);
+	
+	// Add the message to the queue
+	[_messageQueue addObject:message];
+	
+    NSData *messageData = [NSKeyedArchiver archivedDataWithRootObject:message];
+    
+	UInt64 header[1];
+    
+	header[0] = [messageData length]; 
+	
+	// Send header in little endian byte order
+    header[0] = CFSwapInt64HostToLittle(header[0]);
+    
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1.0 tag:(long)0];
+    [_socket writeData:messageData withTimeout:-1.0 tag:(long)1];
 }
+
+#pragma mark -
+#pragma mark Socket delegate methods
+
+- (void)onSocketDidDisconnect:(AsyncSocket *)socket
+{
+	NDLog(self, @"Broker socket disconnected");
+	
+    if (_connectionLostUnexpectedly) {
+        if (delegate && [delegate respondsToSelector:@selector(messageBrokerDidDisconnectUnexpectedly:)] ) {
+            [delegate messageBrokerDidDisconnectUnexpectedly:self];
+        }
+    }
+}
+
+- (void)onSocket:(AsyncSocket *)socket willDisconnectWithError:(NSError *)error 
+{
+	NDLogError(self, @"Broker socket disconnected with error: %@", [error localizedDescription]);
+	
+    _connectionLostUnexpectedly = YES;
+}
+
+- (void)onSocket:(AsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag 
+{
+	NDLog(self, @"Broker reading message data of length %d bytes", [data length]);
+	
+	// Data header
+    if (tag == 0) {
+		NDLog(self, @"Broker reading message data header");
+		
+        UInt64 header = *((UInt64*)[data bytes]);
+		
+		// Convert from little endian to native
+        header = CFSwapInt64LittleToHost(header); 
+		
+        [socket readDataToLength:(CFIndex)header withTimeout:-1.0 tag:(long)1];
+    }
+	// Data body
+    else if (tag == 1) { 
+		NDLog(self, @"Broker reading message data body");
+		
+        if (delegate && [delegate respondsToSelector:@selector(messageBroker:didReceiveMessage:)]) {
+            [delegate messageBroker:self didReceiveMessage:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
+        }        
+    }
+    else {
+        NDLogError(self, @"Unknown tag when reading socket data: %d", tag);
+    }
+}
+
+- (void)onSocket:(AsyncSocket *)socket didWriteDataWithTag:(long)tag 
+{
+    if (tag == 1) {
+        NDNetworkMessage *message = [[[_messageQueue objectAtIndex:0] retain] autorelease];
+        
+		[_messageQueue removeObjectAtIndex:0];
+        
+		if (delegate && [delegate respondsToSelector:@selector(messageBroker:didSendMessage:)]) {
+            [delegate messageBroker:self didSendMessage:message];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Other
 
 /**
  * Dealloc.

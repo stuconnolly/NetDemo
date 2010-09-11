@@ -96,7 +96,8 @@
  * @param message
  */
 - (void)sendMessage:(NSString *)message
-{        
+{
+	// Send the UTF-8 encoded message via the message broker
 	[_broker sendMessage:[NDNetworkMessage messageWithData:[message dataUsingEncoding:NSUTF8StringEncoding]]];
 }
 
@@ -123,7 +124,7 @@
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {      
-    /*NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
+    NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
     
 	[socket release];
     
@@ -131,7 +132,7 @@
     
 	_broker = broker;
     
-	isConnected = YES;*/
+	isConnected = YES;
 }
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
