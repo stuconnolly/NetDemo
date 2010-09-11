@@ -30,10 +30,20 @@
 
 @class NDMessageBroker, NDNetworkMessage;
 
+/**
+ * @protocol NDLoggerDelegate NDLoggerDelegate.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/ 
+ *
+ * Network server delegate protocol.
+ */
 @protocol NDNetworkServerDelegate
 
 /**
  *
+ * 
+ * @param server
+ * @param message
  */
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message;
 

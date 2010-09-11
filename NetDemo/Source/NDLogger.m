@@ -94,6 +94,9 @@ void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments
 
 - (void)release { }
 
+#pragma mark -
+#pragma mark Public API
+
 /**
  * Clears the log by removing all messages.
  */
@@ -101,9 +104,6 @@ void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments
 {
 	[logMessages removeAllObjects];
 }
-
-#pragma mark -
-#pragma mark Public API
 
 /**
  * Logs the supplied message.
@@ -131,8 +131,11 @@ void NDLogError(id caller, NSString *message, ...)
 	_NDLogMessage(caller, YES, message, arguments);
 }
 
+#pragma mark -
+#pragma mark Private API
+
 /**
- *
+ * Logs the supplied message from the supplied caller.
  */
 void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments)
 {

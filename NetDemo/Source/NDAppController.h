@@ -31,6 +31,13 @@
 @protocol NDNetworkServerDelegate;
 @class NDNetworkServer, NDNetworkClient, NDLogController;
 
+/**
+ * @class NDAppController NDAppController.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Core application controller class.
+ */
 @interface NDAppController : NSWindowController <NSApplicationDelegate, NDNetworkServerDelegate> 
 {		
 	// Core instances

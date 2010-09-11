@@ -28,6 +28,13 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @class NDLogController NDLogController.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Log controller class.
+ */
 @interface NDLogController : NSWindowController 
 {
 	IBOutlet NSTableView *logMessagesTableView;

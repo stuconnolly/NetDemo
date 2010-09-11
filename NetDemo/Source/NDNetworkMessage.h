@@ -28,11 +28,21 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @class NDNetworkMessage NDNetworkMessage.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Class representing a single network message.
+ */
 @interface NDNetworkMessage : NSObject <NSCoding> 
 {
 	NSData *data;
 }
 
+/**
+ * @property data The messages data payload
+ */
 @property (readwrite, assign) NSData *data;
 
 + (NDNetworkMessage *)messageWithData:(NSData *)messageData;

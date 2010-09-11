@@ -30,6 +30,13 @@
 
 @protocol NDLoggerDelegate;
 
+/**
+ * @class NDLogger NDLogger.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Logger singleton class.
+ */
 @interface NDLogger : NSObject 
 {
 	id <NDLoggerDelegate> delegate;
@@ -37,7 +44,14 @@
 	NSMutableArray *logMessages;
 }
 
+/**
+ * @property delegate The logger's delegate object
+ */
 @property (readwrite, assign) id <NDLoggerDelegate> delegate;
+
+/**
+ * @property logMessages The logger's array of log messages
+ */
 @property (readonly) NSMutableArray *logMessages;
 
 void NDLog(id caller, NSString *message, ...);

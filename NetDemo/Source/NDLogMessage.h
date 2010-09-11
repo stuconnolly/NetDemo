@@ -46,22 +46,22 @@
 }
 
 /**
- * @property
+ * @property isError Indicates whether this message was an error
  */
 @property (readwrite, assign) BOOL isError;
 
 /**
- * @property
+ * @property messageDate The date the message was created
  */
 @property (readwrite, retain) NSDate *messageDate;
 
 /**
- * @property
+ * @property caller The caller that created the message
  */
 @property (readwrite, retain) NSString *caller;
 
 /**
- * @property
+ * @property message The actual message
  */
 @property (readwrite, retain) NSString *message;
 

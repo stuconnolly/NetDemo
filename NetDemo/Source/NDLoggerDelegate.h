@@ -30,10 +30,20 @@
 
 @class NDLogger, NDNetworkMessage;
 
+/**
+ * @protocol NDLoggerDelegate NDLoggerDelegate.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/ 
+ *
+ * Logger delegate protocol.
+ */
 @protocol NDLoggerDelegate
 
 /**
  *
+ * 
+ * @param logger
+ * @param message
  */
 - (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message;
 

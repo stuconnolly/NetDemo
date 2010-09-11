@@ -30,20 +30,36 @@
 
 @class NDMessageBroker, NDNetworkMessage;
 
+/**
+ * @protocol NDLoggerDelegate NDLoggerDelegate.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/ 
+ *
+ * Message broker delegate protocol.
+ */
 @protocol NDMessageBrokerDelegate
 
 /**
  *
+ *
+ * @param server
+ * @param message
  */
 - (void)messageBroker:(NDMessageBroker *)server didSendMessage:(NDNetworkMessage *)message;
 
 /**
  *
+ *
+ * @param server
+ * @param message
  */
 - (void)messageBroker:(NDMessageBroker *)server didReceiveMessage:(NDNetworkMessage *)message;
 
 /**
  *
+ *
+ * @param server
+ * @param message
  */
 -(void)messageBrokerDidDisconnectUnexpectedly:(NDNetworkMessage *)server;
 
