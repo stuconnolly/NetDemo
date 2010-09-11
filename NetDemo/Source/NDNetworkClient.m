@@ -29,6 +29,8 @@
  */
 
 #import "NDNetworkClient.h"
+#import "NDLogger.h"
+#import "NDConstants.h"
 
 @interface NDNetworkClient (PrivateAPI)
 
@@ -66,19 +68,68 @@
  */
 - (void)search
 {
-	[_browser searchForServicesOfType:@"_netdemo_.tcp." inDomain:@""];
+	[_browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] inDomain:NDServiceServiceDomain];
 }
 
 /**
- *
+ * Connect to the last service found.
  */
-- (BOOL)connect
+- (void)connect
 {
 	NSNetService *service = [_services lastObject];
     
 	[service setDelegate:self];
 	
-    [service resolveWithTimeout:0];
+    [service resolveWithTimeout:10.0];
+}
+
+/**
+ * Sends the supplied message to the connected server.
+ *
+ * @param message
+ */
+- (void)sendMessage:(NSString *)message
+{
+	
+}
+
+#pragma mark -
+#pragma mark Socket delegate methods
+
+- (void)onSocketDidDisconnect:(AsyncSocket *)socket
+{
+    NDLog(self, @"Client socket disconnected: %@", socket);
+}
+
+- (BOOL)onSocketWillConnect:(AsyncSocket *)socket 
+{
+	NDLog(self, @"Client socket about to connect: %@", socket);
+	
+    if (!_broker) {
+        [socket retain];
+        
+		return YES;
+    }
+	
+    return NO;
+}
+
+- (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
+{      
+    /*NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
+    
+	[socket release];
+    
+	[broker setDelegate:self];
+    
+	_broker = broker;
+    
+	isConnected = YES;*/
+}
+
+- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
+{
+	NDLogError(self, @"Client socket error: %@", error);
 }
 
 #pragma mark -
@@ -86,21 +137,25 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
 {
-	
+	NDLog(self, @"Client found service in domain '%@'", domainName);
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveDomain:(NSString *)domainName moreComing:(BOOL)moreDomainsComing
 {
-	
+	NDLog(self, @"Client removed service in domain '%@'", domainName);
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
+	NDLog(self, @"Client found service '%@' of type '%@' in domain '%@' from host '%@' on port %d", [service name], [service type], [service domain], [service hostName], [service port]);
+	
 	[_services addObject:service];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
+	NDLog(self, @"Client removed service '%@' of type '%@' in domain '%@' from host '%@' on port %d", [service name], [service type], [service domain], [service hostName], [service port]);
+	
 	[_services removeObject:service];
 	
     if (service == _connectedService) [self setIsConneced:NO];
@@ -108,32 +163,42 @@
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser
 {
-	
+	NDLog(self, @"Client will search for services");
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didNotSearch:(NSDictionary *)error
 {
-	
+	NDLog(self, @"Client failed to search for services. Error %@", [error objectForKey:NSNetServicesErrorCode]);
 }
 
 - (void)netServiceBrowserDidStopSearch:(NSNetServiceBrowser *)netServiceBrowser
 {
-	
+	NDLog(self, @"Client stopped searching for services");
 }
 
 #pragma mark -
 #pragma mark NSNetService delegate methods
 
-- (void)netServiceDidResolveAddress:(NSNetService *)service
+- (void)netServiceDidResolveAddress:(NSNetService *)service 
 {
-	[self setIsConnected:YES];
+	NDLog(self, @"Client resolved service '%@' of type '%@' in domain '%@' from host '%@'", [service name], [service type], [service domain], [service hostName]);
 	
-    _connectedService = service;
+    NSError *error;
+    
+	_connectedService = service;
+    
+	_socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+    
+	[_socket connectedHost:[service hostName] onPort:[service port] error:&error];
+	
+	if (error) {
+		NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", [error localizedDescription]);
+	}
 }
 
 - (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
 {
-	NSLog(@"Could not resolve service: %@", error);
+	NDLogError(self, @"Failed to resolve service. Error: %@", [error objectForKey:NSNetServicesErrorCode]);
 }
 
 #pragma mark -

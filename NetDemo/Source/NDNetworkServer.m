@@ -31,6 +31,7 @@
 #import "NDNetworkServer.h"
 #import "NDMessageBroker.h"
 #import "NDNetworkMessage.h"
+#import "NDConstants.h"
 #import "NDLogger.h"
 
 @implementation NDNetworkServer
@@ -72,7 +73,7 @@
 		NDLog(self, @"Starting server listening socket");
 		
 		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
-			NDLogError(self, @"Failed to created listening socket. Error: %@", [error localizedDescription]);
+			NDLogError(self, @"Failed to create listening socket. Error: %@", [error localizedDescription]);
 						
 			return NO;
 		}
@@ -83,7 +84,7 @@
 		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
 		// Advertise the service with Bonjour
-		_service = [[NSNetService alloc] initWithDomain:@"local." type:@"_netdemo._tcp." name:serviceName port:[_listeningSocket localPort]];
+		_service = [[NSNetService alloc] initWithDomain:NDServiceServiceDomain type:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] name:serviceName port:[_listeningSocket localPort]];
 		
 		if (_service) {
 			[_service setDelegate:self];
@@ -151,7 +152,7 @@
 
 -(BOOL)onSocketWillConnect:(AsyncSocket *)socket
 {
-	NSLog(@"socket connecting");
+	NDLog(self, @"Server socket about to connect: %@", socket);
 	
     if (!_connectionSocket) {
         _connectionSocket = socket;
@@ -164,7 +165,7 @@
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket 
 {
-	NSLog(@"socket disconnect");
+	NDLog(self, @"Server socket disconnected: %@", socket);
 	
     if (socket == _connectionSocket) {
         _connectionSocket = nil;
@@ -172,20 +173,20 @@
     }
 }
 
-- (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)host port:(UInt16)port 
+- (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {
 	NSLog(@"socket connect to host");
 	
-	NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
+	/*NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
     
 	[newBroker setDelegate:self];
     
-	_broker = newBroker;
+	_broker = newBroker;*/
 }
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
-	NSLog(@"socket error: %@", error);
+	NDLogError(self, @"Server socket error: %@", error);
 }
 
 #pragma mark -

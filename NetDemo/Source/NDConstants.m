@@ -28,36 +28,8 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDNetworkNode.h"
+#import "NDConstants.h"
 
-@class NDMessageBroker, AsyncSocket;
-
-/**
- * @class NDNetworkClient NDNetworkClient.h
- *
- * @author Stuart Connolly http://stuconnolly.com/
- *
- * Network client.
- */
-@interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
-{	
-	BOOL isConnected;
-	
-	NSMutableArray *_services;
-	NSNetServiceBrowser *_browser;
-    NSNetService *_connectedService;
-	
-	AsyncSocket *_socket;
-    NDMessageBroker *_broker;
-}
-
-/**
- * @property isConnected Indicates whether or not the client is connected to the server
- */
-@property (readonly, assign) BOOL isConnected;
-
-- (void)search;
-- (void)connect;
-- (void)sendMessage:(NSString *)message;
-
-@end
+NSString *NDServerServiceType          = @"netdemo";
+NSString *NDServiceServiceDomain       = @"local.";
+NSString *NDServerTransmissionProtocol = @"tcp";
