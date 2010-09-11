@@ -35,7 +35,7 @@
  *
  * @author Stuart Connolly http://stuconnolly.com/
  *
- * 
+ * Network client.
  */
 @interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
 {	

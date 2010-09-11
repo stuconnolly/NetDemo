@@ -43,7 +43,7 @@
 	if ((self = [super init])) {
 		
 		// Default to localhost
-		host = [NSHost currentHost];		
+		host = [NSHost currentHost];	
 	}
 	
 	return self;

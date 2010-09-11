@@ -29,8 +29,16 @@
  */
 
 @class AsyncSocket;
+
 @protocol NDMessageBrokerDelegate;
 
+/**
+ * @class NDMessageBroker NDMessageBroker.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Network message broker.
+ */
 @interface NDMessageBroker : NSObject 
 {
 	id <NDMessageBrokerDelegate> delegate;
@@ -41,6 +49,9 @@
     BOOL connectionLostUnexpectedly;
 }
 
+/**
+ * @property delegate The message broker's delegate
+ */
 @property (readwrite, assign) id <NDMessageBrokerDelegate> delegate; 
 
 @end

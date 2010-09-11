@@ -40,8 +40,8 @@
 @property (readwrite, assign) id <NDLoggerDelegate> delegate;
 @property (readonly) NSMutableArray *logMessages;
 
-void NDLog(NSString *message);
-void NDLogError(NSString *message);
+void NDLog(id caller, NSString *message, ...);
+void NDLogError(id caller, NSString *message, ...);
 
 - (void)clearLog;
 

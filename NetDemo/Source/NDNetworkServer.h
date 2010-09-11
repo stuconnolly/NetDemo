@@ -31,8 +31,16 @@
 #import "NDNetworkNode.h"
 
 @protocol NDNetworkServerDelegate;
+
 @class NDMessageBroker, AsyncSocket;
 
+/**
+ * @class NDNetworkServer NDNetworkServer.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Network server.
+ */
 @interface NDNetworkServer : NDNetworkNode <NSNetServiceDelegate>
 {
 	id <NDNetworkServerDelegate> delegate;
@@ -46,6 +54,9 @@
 	AsyncSocket *_connectionSocket;
 }
 
+/**
+ * @property delegate The server's delegate
+ */
 @property (readwrite, assign) id <NDNetworkServerDelegate> delegate;
 
 - (BOOL)startService;

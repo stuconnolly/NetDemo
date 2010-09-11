@@ -34,24 +34,26 @@
 
 @synthesize isError;
 @synthesize messageDate;
+@synthesize caller;
 @synthesize message;
 
 /**
  * Returns a new console message instance using the suppled message, date and connection.
  */
-+ (NDLogMessage *)logMessageWithMessage:(NSString *)logMessage date:(NSDate *)date
++ (NDLogMessage *)logMessageFromCaller:(NSString *)messageCaller withMessage:(NSString *)logMessage date:(NSDate *)date
 {
-	return [[[NDLogMessage alloc] initWithMessage:logMessage date:date] autorelease];
+	return [[[NDLogMessage alloc] initWithCaller:messageCaller message:logMessage date:date] autorelease];
 }
 
 /**
  * Initializes a new console message instance using the suppled message, date and connection.
  */
-- (id)initWithMessage:(NSString *)logMessage date:(NSDate *)date
+- (id)initWithCaller:(NSString *)messageCaller message:(NSString *)logMessage date:(NSDate *)date
 {
 	if ((self = [super init])) {
 		[self setIsError:NO];
 		[self setMessageDate:date];
+		[self setCaller:messageCaller];
 		[self setMessage:logMessage];
 	}
 	
@@ -63,6 +65,7 @@
  */
 - (void)dealloc
 {
+	[caller release], caller = nil;
 	[message release], message = nil;
 	[messageDate release], messageDate = nil;
 	

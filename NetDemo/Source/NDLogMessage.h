@@ -28,19 +28,45 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/**
+ * @class NDLogMessage NDLogMessage.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/
+ *
+ * Class representing a single log message.
+ */
 @interface NDLogMessage : NSObject
 {
 	BOOL isError;
+	
+	NSString *caller;
 	NSString *message;
+	
 	NSDate *messageDate;
 }
 
+/**
+ * @property
+ */
 @property (readwrite, assign) BOOL isError;
+
+/**
+ * @property
+ */
 @property (readwrite, retain) NSDate *messageDate;
+
+/**
+ * @property
+ */
+@property (readwrite, retain) NSString *caller;
+
+/**
+ * @property
+ */
 @property (readwrite, retain) NSString *message;
 
-+ (NDLogMessage *)logMessageWithMessage:(NSString *)logMessage date:(NSDate *)date;
++ (NDLogMessage *)logMessageFromCaller:(NSString *)messageCaller withMessage:(NSString *)logMessage date:(NSDate *)date;
 
-- (id)initWithMessage:(NSString *)message date:(NSDate *)date;
+- (id)initWithCaller:(NSString *)messageCaller message:(NSString *)logMessage date:(NSDate *)date;
 
 @end

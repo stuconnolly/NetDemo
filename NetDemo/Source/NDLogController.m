@@ -44,12 +44,14 @@
 - (void)awakeFromNib
 {
 	// Setup data formatter
-	_dateFormatter = [[NSDateFormatter alloc] init];
+	//_dateFormatter = [[NSDateFormatter alloc] init];
 	
-	[_dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+	/*[_dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
 	
 	[_dateFormatter setDateStyle:NSDateFormatterNoStyle];
-	[_dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+	[_dateFormatter setTimeStyle:NSDateFormatterMediumStyle];*/
+	
+	_dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S.%F" allowNaturalLanguage:NO];
 	
 	for (NSTableColumn *column in [logMessagesTableView tableColumns])
 	{
@@ -118,6 +120,8 @@
 
 - (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message
 {	
+	[clearLogButton setEnabled:YES];
+	
 	[logMessagesTableView reloadData];
 }
 

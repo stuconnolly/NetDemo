@@ -69,16 +69,16 @@
 	
 		_listeningSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		
-		NDLog(@"Starting server listening socket");
+		NDLog(self, @"Starting server listening socket");
 		
 		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
-			NDLogError([NSString stringWithFormat:@"Failed to created listening socket. Error: %@", [error localizedDescription]]);
+			NDLogError(self, @"Failed to created listening socket. Error: %@", [error localizedDescription]);
 						
 			return NO;
 		}
 				
-		NDLog(@"Server is now listening for connections");
-		NDLog([NSString stringWithFormat:@"Publishing Bonjour (Zeroconf) service to advertise server on port %d.", [_listeningSocket localPort]]);
+		NDLog(self, @"Server is now listening for connections");
+		NDLog(self, @"Publishing Bonjour (Zeroconf) service to advertise server on port %d.", [_listeningSocket localPort]);
 		
 		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
@@ -90,7 +90,7 @@
 			[_service publish];
 		}
 		else {
-			NDLogError(@"Error initializing NSNetService instance");
+			NDLogError(self, @"Error initializing NSNetService instance");
 		}
 		
 		_serviceRunning = YES;
@@ -128,32 +128,22 @@
 
 - (void)netServiceWillPublish:(NSNetService *)service
 {
-	NDLog([NSString stringWithFormat:@"Publising server service '%@' on domain '%@'.", [service name], [service domain]]);
+	NDLog(self, @"Publising server service '%@' on domain '%@'.", [service name], [service domain]);
 }
 
 - (void)netService:(NSNetService *)service didNotPublish:(NSDictionary *)error
 {
-	NDLogError([NSString stringWithFormat:@"Failed to publish server service. Error code %@", [error objectForKey:NSNetServicesErrorCode]]);
+	NDLogError(self, @"Failed to publish server service. Error code %@", [error objectForKey:NSNetServicesErrorCode]);
 }
 
 - (void)netServiceDidPublish:(NSNetService *)service
 {
-	NDLog([NSString stringWithFormat:@"Published server service '%@' on domain '%@'.", [service name], [service domain]]);
+	NDLog(self, @"Published server service '%@' on domain '%@'.", [service name], [service domain]);
 }
 
 - (void)netServiceDidStop:(NSNetService *)service
 {
-	NDLog([NSString stringWithFormat:@"Stopped server service '%@' on domain '%@'.", [service name], [service domain]]);
-}
-
-- (void)netServiceWillResolve:(NSNetService *)service
-{
-	NDLog([NSString stringWithFormat:@"Resolving service: %@", service]);
-}
-	 
-- (void)netServiceDidResolveAddress:(NSNetService *)service
-{
-	NDLog([NSString stringWithFormat:@"Resolved service: %@", service]);
+	NDLog(self, @"Stopped server service '%@' on domain '%@'.", [service name], [service domain]);
 }
 
 #pragma mark -

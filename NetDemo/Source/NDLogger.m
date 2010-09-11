@@ -33,6 +33,12 @@
 
 static NDLogger *logger = nil;
 
+@interface NDLogger (PrivateAPI)
+
+void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments);
+
+@end
+
 @implementation NDLogger
 
 @synthesize delegate;
@@ -102,29 +108,48 @@ static NDLogger *logger = nil;
 /**
  * Logs the supplied message.
  */
-void NDLog(NSString *message)
+void NDLog(id caller, NSString *message, ...)
 {		
-	[[[NDLogger logger] logMessages] addObject:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	va_list arguments;
 	
-	if ([[NDLogger logger] delegate] && [[[NDLogger logger] delegate] respondsToSelector:@selector(logger:updatedWithMessage:)]) {
-		[[[NDLogger logger] delegate] logger:[NDLogger logger] updatedWithMessage:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
-	}
+	va_start(arguments, message);
+	va_end(arguments);
+	
+	_NDLogMessage(caller, NO, message, arguments);
 }
 
 /**
  * Logs the supplied message.
  */
-void NDLogError(NSString *message)
+void NDLogError(id caller, NSString *message, ...)
 {		
-	NDLogMessage *logMessage = [NDLogMessage logMessageWithMessage:message date:[NSDate date]];
+	va_list arguments;
 	
-	[logMessage setIsError:YES];
+	va_start(arguments, message);
+	va_end(arguments);
 	
-	[[[NDLogger logger] logMessages] addObject:logMessage];
+	_NDLogMessage(caller, YES, message, arguments);
+}
+
+/**
+ *
+ */
+void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments)
+{
+	// Extract any supplied arguments and build the formatted log string
+	NSString *logString = [[NSString alloc] initWithFormat:message arguments:arguments];
+		
+	NDLogMessage *logMessage = [NDLogMessage logMessageFromCaller:[caller description] withMessage:logString date:[NSDate date]];
 	
-	if ([[NDLogger logger] delegate] && [[[NDLogger logger] delegate] respondsToSelector:@selector(logger:updatedWithMessage:)]) {
-		[[[NDLogger logger] delegate] logger:[NDLogger logger] updatedWithMessage:[NDLogMessage logMessageWithMessage:message date:[NSDate date]]];
+	[logMessage setIsError:isError];
+	
+	[[logger logMessages] addObject:logMessage];
+	
+	if ([logger delegate] && [[logger delegate] respondsToSelector:@selector(logger:updatedWithMessage:)]) {
+		[[logger delegate] logger:logger updatedWithMessage:logMessage];
 	}
+	
+	[logString release];
 }
 
 #pragma mark -
