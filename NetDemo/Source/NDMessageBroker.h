@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class AsyncSocket;
+@class NDNetworkMessage, AsyncSocket;
 
 @protocol NDMessageBrokerDelegate;
 
@@ -52,6 +52,8 @@
 /**
  * @property delegate The message broker's delegate
  */
-@property (readwrite, assign) id <NDMessageBrokerDelegate> delegate; 
+@property (readwrite, assign) id <NDMessageBrokerDelegate> delegate;
+
+- (void)sendMessage:(NDNetworkMessage *)message;
 
 @end

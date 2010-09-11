@@ -29,6 +29,7 @@
  */
 
 #import "NDNetworkClient.h"
+#import "NDNetworkMessage.h"
 #import "NDLogger.h"
 #import "NDConstants.h"
 
@@ -89,8 +90,8 @@
  * @param message
  */
 - (void)sendMessage:(NSString *)message
-{
-	
+{        
+	[_broker sendMessage:[NDNetworkMessage messageWithData:[message dataUsingEncoding:NSUTF8StringEncoding]]];
 }
 
 #pragma mark -

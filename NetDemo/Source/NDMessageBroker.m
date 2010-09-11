@@ -29,11 +29,21 @@
  */
 
 #import "NDMessageBroker.h"
+#import "NDNetworkMessage.h"
+#import "NDLogger.h"
 
 @implementation NDMessageBroker
 
 @synthesize delegate;
 
-
+/**
+ *
+ *
+ * @param message
+ */
+- (void)sendMessage:(NDNetworkMessage *)message
+{
+	NDLog(self, @"Message broker sending message: %@", message);
+}
 
 @end
