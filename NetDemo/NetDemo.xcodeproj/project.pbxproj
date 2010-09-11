@@ -17,7 +17,7 @@
 		17C6A57A1231586F00E444D9 /* NDLogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C6A5791231586F00E444D9 /* NDLogMessage.m */; };
 		17D508EF1235A2200091C008 /* NDNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D508EE1235A2200091C008 /* NDNetworkClient.m */; };
 		17D508F21235A22C0091C008 /* NDNetworkServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D508F11235A22C0091C008 /* NDNetworkServer.m */; };
-		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		1DDD58160DA1D0A300B32029 /* NetDemo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* NetDemo.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NDAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NDAppController.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -49,7 +49,7 @@
 		17D508EE1235A2200091C008 /* NDNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkClient.m; sourceTree = "<group>"; };
 		17D508F01235A22C0091C008 /* NDNetworkServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkServer.h; sourceTree = "<group>"; };
 		17D508F11235A22C0091C008 /* NDNetworkServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkServer.m; sourceTree = "<group>"; };
-		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NetDemo.xib; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* NDAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDAppController.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* NDAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDAppController.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
@@ -146,7 +146,7 @@
 		17C6A3B31230298100E444D9 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				1DDD58140DA1D0A300B32029 /* NetDemo.xib */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -253,7 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				1DDD58160DA1D0A300B32029 /* NetDemo.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,12 +281,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {
+		1DDD58140DA1D0A300B32029 /* NetDemo.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
-			name = MainMenu.xib;
+			name = NetDemo.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
