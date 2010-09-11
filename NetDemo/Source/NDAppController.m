@@ -30,6 +30,7 @@
 
 #import "NDAppController.h"
 #import "NDNetworkServer.h"
+#import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
 
 @implementation NDAppController
@@ -44,8 +45,13 @@
 {
 	if ((self = [super init])) {
 		
+		// Initialize core network classes
 		_server = [[NDNetworkServer alloc] init];
 		_client = [[NDNetworkClient alloc] init];
+		
+		// Assign delegates
+		[_server setDelegate:self];
+		[_client setDelegate:self];
 	}
 	
 	return self;
@@ -91,11 +97,14 @@
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+	// Show the network log
 	[self showNetworkLog:self];
-	
-	[_server setPort:[portTextField integerValue]];
-	
+		
+	// Start the server
 	[_server startService];
+		
+	// Start the client's search for services
+	[_client search];
 }
 
 /**
@@ -112,6 +121,15 @@
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
 	
+}
+
+#pragma mark -
+#pragma mark Client delegate methods
+
+- (void)networkClient:(NDNetworkClient *)client didFindService:(NSNetService *)service
+{
+	// When the client has found the right service, try to connect to it
+	[_client connect];
 }
 
 #pragma mark -

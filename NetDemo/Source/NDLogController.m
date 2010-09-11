@@ -123,6 +123,8 @@
 	[clearLogButton setEnabled:YES];
 	
 	[logMessagesTableView reloadData];
+	
+	[logMessagesTableView scrollRowToVisible:([logMessagesTableView numberOfRows] - 1)];
 }
 
 #pragma mark -

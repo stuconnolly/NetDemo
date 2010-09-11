@@ -27,6 +27,7 @@
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		177E79CD123B992700A02EF6 /* NDConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDConstants.h; sourceTree = "<group>"; };
 		177E79CE123B992700A02EF6 /* NDConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDConstants.m; sourceTree = "<group>"; };
+		177E7A93123BADC200A02EF6 /* NDNetworkClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkClientDelegate.h; sourceTree = "<group>"; };
 		17892D47123162F2002FD07B /* NDLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDLogger.h; sourceTree = "<group>"; };
 		17892D48123162F2002FD07B /* NDLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDLogger.m; sourceTree = "<group>"; };
 		17892D6412316B0E002FD07B /* NDNetworkNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkNode.h; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				17A0AFD2123AA26300F903F4 /* NDLoggerDelegate.h */,
+				177E7A93123BADC200A02EF6 /* NDNetworkClientDelegate.h */,
 				17A0AEBE1239A41B00F903F4 /* NDNetworkServerDelegate.h */,
 				17A0AEAA1239929C00F903F4 /* NDMessageBrokerDelegate.h */,
 			);

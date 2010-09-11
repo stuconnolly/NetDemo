@@ -33,6 +33,9 @@
 #import "NDLogger.h"
 #import "NDConstants.h"
 
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 @interface NDNetworkClient (PrivateAPI)
 
 @property (readwrite, assign) BOOL isConnected;
@@ -41,6 +44,7 @@
 
 @implementation NDNetworkClient
 
+@synthesize delegate;
 @synthesize isConnected;
 
 #pragma mark -
@@ -59,6 +63,8 @@
 		
 		[_browser setDelegate:self];
 	}
+	
+	return self;
 }
 
 #pragma mark -
@@ -148,14 +154,22 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
-	NDLog(self, @"Client found service '%@' of type '%@' in domain '%@' from host '%@' on port %d", [service name], [service type], [service domain], [service hostName], [service port]);
+	NDLog(self, @"Client found service '%@' of type '%@' in domain '%@'", [service name], [service type], [service domain]);
 	
 	[_services addObject:service];
+	
+	// Stop looking for services
+	[netServiceBrowser stop];
+	
+	// Inform the delegate that we found a service
+	if (delegate && [delegate respondsToSelector:@selector(networkClient:didFindService:)]) {
+		[delegate networkClient:self didFindService:service];
+	}
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didRemoveService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
-	NDLog(self, @"Client removed service '%@' of type '%@' in domain '%@' from host '%@' on port %d", [service name], [service type], [service domain], [service hostName], [service port]);
+	NDLog(self, @"Client removed service '%@' of type '%@' in domain '%@'", [service name], [service type], [service domain]);
 	
 	[_services removeObject:service];
 	
@@ -164,7 +178,7 @@
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser
 {
-	NDLog(self, @"Client will search for services");
+	NDLog(self, @"Client starting to search for services");
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didNotSearch:(NSDictionary *)error
@@ -189,11 +203,20 @@
 	_connectedService = service;
     
 	_socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
-    
-	[_socket connectedHost:[service hostName] onPort:[service port] error:&error];
+    	
+	[_socket connectToAddress:[[service addresses] lastObject] error:&error];
 	
+	/*NSData *address = [[service addresses] objectAtIndex:1];
+    struct sockaddr_in *address_sin = (struct sockaddr_in *)[address bytes];
+    struct sockaddr_in6 *address_sin6 = (struct sockaddr_in6 *)[address bytes];
+    const char *formatted;
+    char buffer[1024];
+	
+	formatted = inet_ntop(AF_INET, &(address_sin->sin_addr), buffer, sizeof(buffer));
+	NSLog(@"%s", formatted);*/
+		
 	if (error) {
-		NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", [error localizedDescription]);
+		NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", error);
 	}
 }
 

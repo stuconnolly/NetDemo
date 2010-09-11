@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="656"/>
+			<integer value="548"/>
 			<integer value="371"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -956,7 +956,7 @@
 											<object class="_NSCornerView" key="NSCornerView" id="536677526">
 												<reference key="NSNextResponder" ref="313319217"/>
 												<int key="NSvFlags">-2147483392</int>
-												<string key="NSFrame">{{224, 0}, {16, 17}}</string>
+												<string key="NSFrame">{{746, 0}, {12, 17}}</string>
 												<reference key="NSSuperview" ref="313319217"/>
 											</object>
 											<object class="NSMutableArray" key="NSTableColumns">
@@ -1094,8 +1094,9 @@
 								<object class="NSScroller" id="38231320">
 									<reference key="NSNextResponder" ref="313319217"/>
 									<int key="NSvFlags">-2147483392</int>
-									<string key="NSFrame">{{-100, -100}, {15, 102}}</string>
+									<string key="NSFrame">{{746, 17}, {11, 236}}</string>
 									<reference key="NSSuperview" ref="313319217"/>
+									<int key="NSsFlags">256</int>
 									<reference key="NSTarget" ref="313319217"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.93644070625305176</double>
@@ -1130,7 +1131,7 @@
 							<string key="NSFrame">{{20, 60}, {758, 254}}</string>
 							<reference key="NSSuperview" ref="846074465"/>
 							<reference key="NSNextKeyView" ref="910091002"/>
-							<int key="NSsFlags">514</int>
+							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="38231320"/>
 							<reference key="NSHScroller" ref="644179156"/>
 							<reference key="NSContentView" ref="910091002"/>
@@ -2571,9 +2572,9 @@
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{361, 283}, {518, 334}}</string>
+					<string>{{391, 422}, {518, 334}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{361, 283}, {518, 334}}</string>
+					<string>{{391, 422}, {518, 334}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<boolean value="YES"/>
@@ -2589,9 +2590,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{306, 326}, {798, 334}}</string>
+					<string>{{297, 262}, {798, 334}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{306, 326}, {798, 334}}</string>
+					<string>{{297, 262}, {798, 334}}</string>
 					<boolean value="NO"/>
 					<boolean value="YES"/>
 					<string>{518, 334}</string>

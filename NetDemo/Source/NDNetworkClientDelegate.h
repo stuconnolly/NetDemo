@@ -28,46 +28,20 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDNetworkServer, NDNetworkClient, NDLogController;
-
-@protocol NDNetworkServerDelegate, NDNetworkClientDelegate;
+/**
+ * @protocol NDNetworkClientDelegate NDNetworkClientDelegate.h
+ *
+ * @author Stuart Connolly http://stuconnolly.com/ 
+ *
+ * Network client delegate protocol.
+ */
+@protocol NDNetworkClientDelegate
 
 /**
- * @class NDAppController NDAppController.h
  *
- * @author Stuart Connolly http://stuconnolly.com/
- *
- * Core application controller class.
+ * @param client
+ * @param service
  */
-@interface NDAppController : NSWindowController <NSApplicationDelegate, NDNetworkServerDelegate, NDNetworkClientDelegate> 
-{		
-	// Core instances
-	NDNetworkServer *_server;
-	NDNetworkClient *_client;
-	
-	// Controllers
-	IBOutlet NDLogController *_logController;
-	
-	// Panels
-	IBOutlet NSPanel *portPanel;
-	
-	// Buttons
-	IBOutlet NSButton *quitButton;
-	IBOutlet NSButton *sendButton;
-	IBOutlet NSButton *setPortButton;
-	
-	// Text views
-	IBOutlet NSTextView *inputTextView;
-	IBOutlet NSTextView *outputTextView;
-	
-	// Other
-	IBOutlet NSProgressIndicator *activityProgressIndicator;
-	IBOutlet NSTextField *activityLabelTextField;
-	IBOutlet NSTextField *portTextField;
-}
-
-- (IBAction)showNetworkLog:(id)sender;
-- (IBAction)setPort:(id)sender;
-- (IBAction)closeSheet:(id)sender;
+- (void)networkClient:(NDNetworkClient *)client didFindService:(NSNetService *)service;
 
 @end

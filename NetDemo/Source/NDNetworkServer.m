@@ -79,7 +79,7 @@
 		}
 				
 		NDLog(self, @"Server is now listening for connections");
-		NDLog(self, @"Publishing Bonjour (Zeroconf) service to advertise server on port %d.", [_listeningSocket localPort]);
+		NDLog(self, @"Publishing Bonjour (Zeroconf) service to advertise server on port %d", [_listeningSocket localPort]);
 		
 		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
@@ -175,7 +175,7 @@
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {
-	NSLog(@"socket connect to host");
+	NDLog(self, @"Server socket connected to host '%@' on port ", hostName, hostPort);
 	
 	/*NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithAsyncSocket:socket] autorelease];
     
