@@ -100,7 +100,7 @@
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket
 {
-	NDLog(self, @"Broker socket disconnected");
+	NDLog(self, @"Broker socket disconnected: %@", socket);
 	
     if (_connectionLostUnexpectedly) {
         if (delegate && [delegate respondsToSelector:@selector(messageBrokerDidDisconnectUnexpectedly:)] ) {

@@ -89,6 +89,21 @@
 	[[sender window] orderOut:self];
 }
 
+/**
+ * Sends the current message via the client.
+ */
+- (IBAction)sendMessage:(id)sender
+{
+	NSString *message = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	
+	if ([message length]) {
+		[_client sendMessage:[inputTextView string]];
+	}
+	else {
+		NSBeep();
+	}
+}
+
 #pragma mark -
 #pragma mark Application notifications
 
@@ -96,10 +111,7 @@
  * Called when the application finishes launching.
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
-{
-	// Show the network log
-	[self showNetworkLog:self];
-		
+{		
 	// Start the server
 	[_server startService];
 		

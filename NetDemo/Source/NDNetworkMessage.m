@@ -54,6 +54,23 @@
 	return self;
 }
 
+#pragma mark -
+#pragma mark NSCoding protocol methods
+
+- (id)initWithCoder:(NSCoder *)coder 
+{
+    if ((self = [super init])) {
+        data = [[coder decodeObjectForKey:@"NDMessageData"] retain];
+    }
+	
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder 
+{
+    [coder encodeObject:data forKey:@"NDMessageData"];
+}
+
 /**
  * Dealloc.
  */

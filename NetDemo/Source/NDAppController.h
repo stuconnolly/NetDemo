@@ -69,5 +69,6 @@
 - (IBAction)showNetworkLog:(id)sender;
 - (IBAction)setPort:(id)sender;
 - (IBAction)closeSheet:(id)sender;
+- (IBAction)sendMessage:(id)sender;
 
 @end
