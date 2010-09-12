@@ -128,11 +128,13 @@
 	
     NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
     
+	NDLog(self, @"Client created communication broker: %@", broker);
+	
 	[socket release];
     
 	[broker setDelegate:self];
 	
-	if (_broker) [_broker release];
+	if (_broker) [_broker release], _broker = nil;
     
 	_broker = broker;
     

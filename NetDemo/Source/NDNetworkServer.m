@@ -188,9 +188,11 @@
 	
 	NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
     
+	NDLog(self, @"Server created communication broker: %@", broker);
+	
 	[broker setDelegate:self];
     
-	if (_broker) [_broker release];
+	if (_broker) [_broker release], _broker = nil;
 	
 	_broker = broker;
 }
