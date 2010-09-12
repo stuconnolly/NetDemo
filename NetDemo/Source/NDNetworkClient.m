@@ -127,7 +127,7 @@
 	NDLog(self, @"Client socket connected to host '%@' on port %d", hostName, hostPort);
 	
     NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
-    
+	
 	NDLog(self, @"Client created communication broker %@ with socket %@", broker, socket);
 	
 	[socket release];
@@ -213,8 +213,10 @@
     NSError *error = nil;
     
 	_connectedService = service;
+	
+	if (_socket) [_socket release], _socket = nil;
     
-	_socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+	_socket = [[AsyncSocket alloc] initWithDelegate:self];
     	
 	[_socket connectToAddress:[[service addresses] lastObject] error:&error];
 		

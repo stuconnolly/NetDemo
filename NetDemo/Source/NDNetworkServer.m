@@ -153,14 +153,17 @@
 #pragma mark -
 #pragma mark Socket delegate methods
 
+- (BOOL)onSocketWillConnect:(AsyncSocket *)socket 
+{
+    return (_connectionSocket == nil);
+}
+
 - (void)onSocket:(AsyncSocket *)socket didAcceptNewSocket:(AsyncSocket *)newSocket
 {	
 	NDLog(self, @"Server accepted new socket connection: %@", newSocket);
 
 	if (_connectionSocket == nil) {
         _connectionSocket = [newSocket retain];
-        
-		return YES;
     }
 }
 
@@ -189,7 +192,7 @@
 	_broker = broker;
 }
 
-- (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
+- (void)onSocket:(AsyncSocket *)socket willDisconnectWithError:(NSError *)error
 {
 	NDLogError(self, @"Server socket disconnected with error: %@", error);
 }
@@ -199,7 +202,7 @@
 
 -(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker
 {
-	NDLogError(self, @"Server communication broker unexpectedly disconnected");
+	NDLogError(self, @"Server communication broker unexpectedly disconnected: %@", broker);
 }
 
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message

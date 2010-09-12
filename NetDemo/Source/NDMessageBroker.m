@@ -56,14 +56,14 @@
 			
 			[_socket setDelegate:self];
 			
-			_messageQueue = [[NSMutableArray alloc] init];
+			_messageQueue = [[NSMutableArray alloc] init];		
 			
-			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1 tag:0];
+			// Start listening for data
+			[socket readDataToLength:sizeof(UInt64) withTimeout:-1 tag:0];
 		}
 		else {
 			self = nil;
 		}
-		
 	}
 	
 	return self;
@@ -82,7 +82,7 @@
 	NDLog(self, @"Message broker sending message: %@", message);
 	
 	if ((_socket == nil) || (![_socket isConnected])) {
-		NDLogError(self, @"Broker failed to send message because socket doesn't exist");
+		NDLogError(self, @"Broker failed to send message because socket doesn't exist or is not connected");
 		return;
 	}
 	
@@ -98,8 +98,8 @@
 	// Send header in little endian byte order
     header[0] = CFSwapInt64HostToLittle(header[0]);
     
-	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1 tag:(long)0];
-    [_socket writeData:messageData withTimeout:-1 tag:(long)1];
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1 tag:0];
+    [_socket writeData:messageData withTimeout:-1 tag:1];
 }
 
 #pragma mark -
@@ -129,18 +129,18 @@
 	
 	// Data header
     if (tag == 0) {
-		NDLog(self, @"Broker reading message data header");
+		NDLog(self, @"Broker reading message header");
 		
         UInt64 header = *((UInt64*)[data bytes]);
 		
 		// Convert from little endian to native
         header = CFSwapInt64LittleToHost(header); 
 		
-        [socket readDataToLength:(CFIndex)header withTimeout:-1 tag:(long)1];
+        [socket readDataToLength:(CFIndex)header withTimeout:-1 tag:1];
     }
 	// Data body
     else if (tag == 1) { 
-		NDLog(self, @"Broker reading message data body");
+		NDLog(self, @"Broker reading message data");
 		
         if (delegate && [delegate respondsToSelector:@selector(messageBroker:didReceiveMessage:)]) {
             [delegate messageBroker:self didReceiveMessage:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
@@ -154,7 +154,7 @@
 - (void)onSocket:(AsyncSocket *)socket didWriteDataWithTag:(long)tag 
 {
     if (tag == 1) {
-        NDNetworkMessage *message = [[[_messageQueue objectAtIndex:0] retain] autorelease];
+        NDNetworkMessage *message = [[_messageQueue objectAtIndex:0] retain];
         
 		[_messageQueue removeObjectAtIndex:0];
         
