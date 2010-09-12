@@ -135,10 +135,14 @@
 
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
+	NSString *messageString = [[NSString alloc] initWithBytes:[[message data] bytes] length:[[message data] length] encoding:NSUTF8StringEncoding];
+	
 	[outputTextView setEditable:YES];
 	[outputTextView setString:@""];
-	[outputTextView setString:[NSString stringWithUTF8String:[[message data] bytes]]];
+	[outputTextView setString:messageString];
 	[outputTextView setEditable:NO];
+	
+	[messageString release];
 }
 
 #pragma mark -

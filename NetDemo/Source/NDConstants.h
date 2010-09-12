@@ -28,6 +28,12 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+enum {
+	NDNetworkMessageHeader = 0,
+	NDNetworkMessageData   = 1
+};
+typedef NSUInteger NDNetworkMessagePart;
+
 extern NSString *NDServerServiceType;
 extern NSString *NDServiceServiceDomain;
 extern NSString *NDServerTransmissionProtocol;

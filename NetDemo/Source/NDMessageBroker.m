@@ -31,6 +31,7 @@
 #import "NDMessageBroker.h"
 #import "NDNetworkMessage.h"
 #import "NDLogger.h"
+#import "NDConstants.h"
 
 @implementation NDMessageBroker
 
@@ -59,7 +60,7 @@
 			_messageQueue = [[NSMutableArray alloc] init];		
 			
 			// Start listening for data
-			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:0];
+			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:NDNetworkMessageHeader];
 		}
 		else {
 			self = nil;
@@ -98,8 +99,8 @@
 	// Send header in little endian byte order
     header[0] = CFSwapInt64HostToLittle(header[0]);
     
-	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1.0 tag:0];
-    [_socket writeData:messageData withTimeout:-1.0 tag:1];
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1.0 tag:NDNetworkMessageHeader];
+    [_socket writeData:messageData withTimeout:-1.0 tag:NDNetworkMessageData];
 }
 
 #pragma mark -
@@ -124,27 +125,31 @@
 }
 
 - (void)onSocket:(AsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag 
-{
-	NDLog(self, @"Broker reading message data of length %d bytes", [data length]);
+{	
+	NDLog(self, @"Broker reading data");
 	
 	// Data header
-    if (tag == 0) {
-		NDLog(self, @"Broker reading message header");
-		
+    if (tag == NDNetworkMessageHeader) {
         UInt64 header = *((UInt64*)[data bytes]);
+		
+		NDLog(self, @"Broker reading message header. About to receive %lu bytes of data", header);
 		
 		// Convert from little endian to native
         header = CFSwapInt64LittleToHost(header); 
 		
-        [socket readDataToLength:(CFIndex)header withTimeout:-1.0 tag:1];
+		// Start listening for the actual data
+        [socket readDataToLength:(CFIndex)header withTimeout:-1.0 tag:NDNetworkMessageData];
     }
 	// Data body
-    else if (tag == 1) { 
+    else if (tag == NDNetworkMessageData) { 
 		NDLog(self, @"Broker reading message data");
 		
         if (delegate && [delegate respondsToSelector:@selector(messageBroker:didReceiveMessage:)]) {
             [delegate messageBroker:self didReceiveMessage:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
-        } 		
+        } 
+		
+		// Start listening for the next message header
+		[socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:NDNetworkMessageHeader];
     }
     else {
         NDLogError(self, @"Unknown tag when reading socket data: %d", tag);
