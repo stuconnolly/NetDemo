@@ -108,7 +108,7 @@
 {
 	NDLog(self, @"Client socket about to connect: %@", socket);
 	
-    if (_broker == nil) {
+    if ((!isConnected) && (!_broker)) {
         [socket retain];
         
 		return YES;

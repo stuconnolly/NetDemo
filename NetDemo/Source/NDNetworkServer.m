@@ -155,7 +155,7 @@
 
 - (BOOL)onSocketWillConnect:(AsyncSocket *)socket 
 {
-    return (_connectionSocket == nil);
+    return (_broker == nil);
 }
 
 - (void)onSocket:(AsyncSocket *)socket didAcceptNewSocket:(AsyncSocket *)newSocket
@@ -172,9 +172,12 @@
 	NDLog(self, @"Server socket disconnected: %@", socket);
 	
     if (socket == _connectionSocket) {
-        _connectionSocket = nil;
+		[_connectionSocket release], _connectionSocket = nil;
         _broker = nil;
     }
+	else if (socket == _listeningSocket) {
+		NDLog(self, @"Server listening socket disconnected");
+	}
 }
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 

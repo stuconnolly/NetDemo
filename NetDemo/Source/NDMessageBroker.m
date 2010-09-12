@@ -59,7 +59,7 @@
 			_messageQueue = [[NSMutableArray alloc] init];		
 			
 			// Start listening for data
-			[socket readDataToLength:sizeof(UInt64) withTimeout:-1 tag:0];
+			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:0];
 		}
 		else {
 			self = nil;
@@ -98,8 +98,8 @@
 	// Send header in little endian byte order
     header[0] = CFSwapInt64HostToLittle(header[0]);
     
-	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1 tag:0];
-    [_socket writeData:messageData withTimeout:-1 tag:1];
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1.0 tag:0];
+    [_socket writeData:messageData withTimeout:-1.0 tag:1];
 }
 
 #pragma mark -
@@ -136,7 +136,7 @@
 		// Convert from little endian to native
         header = CFSwapInt64LittleToHost(header); 
 		
-        [socket readDataToLength:(CFIndex)header withTimeout:-1 tag:1];
+        [socket readDataToLength:(CFIndex)header withTimeout:-1.0 tag:1];
     }
 	// Data body
     else if (tag == 1) { 
@@ -144,7 +144,7 @@
 		
         if (delegate && [delegate respondsToSelector:@selector(messageBroker:didReceiveMessage:)]) {
             [delegate messageBroker:self didReceiveMessage:[NSKeyedUnarchiver unarchiveObjectWithData:data]];
-        }        
+        } 		
     }
     else {
         NDLogError(self, @"Unknown tag when reading socket data: %d", tag);
