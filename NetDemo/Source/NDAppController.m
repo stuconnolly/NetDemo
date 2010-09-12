@@ -32,30 +32,9 @@
 #import "NDNetworkServer.h"
 #import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
+#import "NDLogger.h"
 
 @implementation NDAppController
-
-#pragma mark -
-#pragma mark Initialisation
-
-/**
- * Init.
- */
-- (id)init
-{
-	if ((self = [super init])) {
-		
-		// Initialize core network classes
-		_server = [[NDNetworkServer alloc] init];
-		_client = [[NDNetworkClient alloc] init];
-		
-		// Assign delegates
-		[_server setDelegate:self];
-		[_client setDelegate:self];
-	}
-	
-	return self;
-}
 
 #pragma mark -
 #pragma mark IB action methods
@@ -112,11 +91,35 @@
  */
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {		
-	// Start the server
-	[_server startService];
+	NSArray *args = [[NSProcessInfo processInfo] arguments];
+	
+	BOOL noServer = [args containsObject:@"--no-server"];
+	BOOL noClient = [args containsObject:@"--no-client"];
+	
+	if (noServer && noClient) {
+		NDLogError(self, @"Application started with no client or server");
+		return;
+	}
+	
+	// If required start the client
+	if (!noClient) {
+		_client = [[NDNetworkClient alloc] init];
 		
-	// Start the client's search for services
-	[_client search];
+		[_client setDelegate:self];
+		
+		// Start the client's search for services
+		[_client search];
+	}
+	
+	// If required start the server
+	if (!noServer) {
+		_server = [[NDNetworkServer alloc] init];
+		
+		[_server setDelegate:self];
+		
+		// Start the server
+		[_server startService];
+	}
 }
 
 /**
@@ -134,14 +137,14 @@
 {
 	[outputTextView setEditable:YES];
 	[outputTextView setString:@""];
-	[outputTextView setString:@"TEST"];
+	[outputTextView setString:[NSString stringWithUTF8String:[[message data] bytes]]];
 	[outputTextView setEditable:NO];
 }
 
 #pragma mark -
 #pragma mark Client delegate methods
 
-- (void)networkClient:(NDNetworkClient *)client didFindService:(NSNetService *)service
+- (void)networkClient:(NDNetworkClient *)client didFindServices:(NSArray *)services
 {
 	// When the client has found the right service, try to connect to it
 	[_client connect];

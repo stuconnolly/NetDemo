@@ -73,17 +73,17 @@
 		NDLog(self, @"Starting server listening socket");
 		
 		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
-			NDLogError(self, @"Failed to create listening socket. Error: %@", [error localizedDescription]);
+			NDLogError(self, @"Failed to create server listening socket. Error: %@", [error localizedDescription]);
 						
 			return NO;
 		}
 				
 		NDLog(self, @"Server is now listening for connections");
-		NDLog(self, @"Publishing Bonjour (Zeroconf) service to advertise server on port %d", [_listeningSocket localPort]);
+		NDLog(self, @"Publishing service via Bonjour (Zeroconf) to advertise server on port %d", [_listeningSocket localPort]);
 		
-		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
+		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@", [[NSProcessInfo processInfo] hostName]];
 		
-		// Advertise the service with Bonjour
+		// Advertise the service via Bonjour
 		_service = [[NSNetService alloc] initWithDomain:NDServiceServiceDomain type:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] name:serviceName port:[_listeningSocket localPort]];
 		
 		if (_service) {
@@ -91,7 +91,7 @@
 			[_service publish];
 		}
 		else {
-			NDLogError(self, @"Error initializing NSNetService instance");
+			NDLogError(self, @"Error initializing server NSNetService instance");
 		}
 		
 		_serviceRunning = YES;
@@ -151,11 +151,19 @@
 #pragma mark -
 #pragma mark Socket delegate methods
 
+- (void)onSocket:(AsyncSocket *)socket didAcceptNewSocket:(AsyncSocket *)newSocket
+{	
+	NDLog(self, @"Server socket accepted new socket: %@", newSocket);
+
+	// Retain the new socket
+	[newSocket retain];
+}
+
 -(BOOL)onSocketWillConnect:(AsyncSocket *)socket
 {
 	NDLog(self, @"Server socket about to connect: %@", socket);
 	
-    if (!_connectionSocket) {
+    if (_connectionSocket == nil) {
         _connectionSocket = socket;
         
 		return YES;
@@ -176,13 +184,15 @@
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {
-	NDLog(self, @"Server socket connected to host '%@' on port ", hostName, hostPort);
+	NDLog(self, @"Server socket connected to host '%@' on port %d", hostName, hostPort);
 	
-	NDMessageBroker *newBroker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
+	NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
     
-	[newBroker setDelegate:self];
+	[broker setDelegate:self];
     
-	_broker = newBroker;
+	if (_broker) [_broker release];
+	
+	_broker = broker;
 }
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error

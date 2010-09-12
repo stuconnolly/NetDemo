@@ -40,7 +40,9 @@
 #pragma mark Initialisation
 
 /**
+ * Initialise an instance of NDMessageBroker with the supplied socket.
  *
+ * @param socket The socket that the broker should use
  */
 - (id)initWithSocket:(AsyncSocket *)socket
 {
@@ -78,6 +80,11 @@
 - (void)sendMessage:(NDNetworkMessage *)message
 {
 	NDLog(self, @"Message broker sending message: %@", message);
+	
+	if (_socket == nil) {
+		NDLogError(self, @"Broker failed to send message because socket doesn't exist");
+		return;
+	}
 	
 	// Add the message to the queue
 	[_messageQueue addObject:message];

@@ -38,10 +38,11 @@
 @protocol NDNetworkClientDelegate
 
 /**
+ * Called when the client has found all available services.
  *
- * @param client
- * @param service
+ * @param client   The calling client instance
+ * @param services The array of services found (NSNetService instances)
  */
-- (void)networkClient:(NDNetworkClient *)client didFindService:(NSNetService *)service;
+- (void)networkClient:(NDNetworkClient *)client didFindServices:(NSArray *)services;
 
 @end

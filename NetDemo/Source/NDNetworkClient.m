@@ -104,16 +104,11 @@
 #pragma mark -
 #pragma mark Socket delegate methods
 
-- (void)onSocketDidDisconnect:(AsyncSocket *)socket
-{
-    NDLog(self, @"Client socket disconnected: %@", socket);
-}
-
 - (BOOL)onSocketWillConnect:(AsyncSocket *)socket 
 {
 	NDLog(self, @"Client socket about to connect: %@", socket);
 	
-    if (!_broker) {
+    if (_broker == nil) {
         [socket retain];
         
 		return YES;
@@ -122,13 +117,22 @@
     return NO;
 }
 
+- (void)onSocketDidDisconnect:(AsyncSocket *)socket
+{
+    NDLog(self, @"Client socket disconnected: %@", socket);
+}
+
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {      
-    NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
+	NDLog(self, @"Client socket connected to host '%@' on port %d", hostName, hostPort);
+	
+    NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
     
 	[socket release];
     
 	[broker setDelegate:self];
+	
+	if (_broker) [_broker release];
     
 	_broker = broker;
     
@@ -137,7 +141,7 @@
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
 {
-	NDLogError(self, @"Client socket error: %@", error);
+	NDLogError(self, @"Client socket disconnected with error: %@", error);
 }
 
 #pragma mark -
@@ -159,12 +163,17 @@
 	
 	[_services addObject:service];
 	
-	// Stop looking for services
-	[netServiceBrowser stop];
-	
-	// Inform the delegate that we found a service
-	if (delegate && [delegate respondsToSelector:@selector(networkClient:didFindService:)]) {
-		[delegate networkClient:self didFindService:service];
+	// If there are no more servers to be supplied then stop searching
+	if (!moreServicesComing) {
+		
+		// Stop looking for services
+		[netServiceBrowser stop];
+		
+		// Inform the delegate that we found a service
+		if (delegate && [delegate respondsToSelector:@selector(networkClient:didFindServices:)]) {
+			[delegate networkClient:self didFindServices:_services];
+		}
+		
 	}
 }
 
@@ -206,15 +215,6 @@
 	_socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
     	
 	[_socket connectToAddress:[[service addresses] lastObject] error:&error];
-	
-	/*NSData *address = [[service addresses] objectAtIndex:1];
-    struct sockaddr_in *address_sin = (struct sockaddr_in *)[address bytes];
-    struct sockaddr_in6 *address_sin6 = (struct sockaddr_in6 *)[address bytes];
-    const char *formatted;
-    char buffer[1024];
-	
-	formatted = inet_ntop(AF_INET, &(address_sin->sin_addr), buffer, sizeof(buffer));
-	NSLog(@"%s", formatted);*/
 		
 	if (error) NDLogError(self, @"Client failed to creat socket connection to server. Error: %@", error);
 }
