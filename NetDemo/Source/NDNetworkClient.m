@@ -128,7 +128,7 @@
 	
     NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
     
-	NDLog(self, @"Client created communication broker: %@", broker);
+	NDLog(self, @"Client created communication broker %@ with socket %@", broker, socket);
 	
 	[socket release];
     

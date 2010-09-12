@@ -70,6 +70,8 @@
 	
 		_listeningSocket = [[AsyncSocket alloc] initWithDelegate:self];
 		
+		[_listeningSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+		
 		NDLog(self, @"Starting server listening socket");
 		
 		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
@@ -153,23 +155,13 @@
 
 - (void)onSocket:(AsyncSocket *)socket didAcceptNewSocket:(AsyncSocket *)newSocket
 {	
-	NDLog(self, @"Server socket accepted new socket: %@", newSocket);
+	NDLog(self, @"Server accepted new socket connection: %@", newSocket);
 
-	// Retain the new socket
-	[newSocket retain];
-}
-
--(BOOL)onSocketWillConnect:(AsyncSocket *)socket
-{
-	NDLog(self, @"Server socket about to connect: %@", socket);
-	
-    if (_connectionSocket == nil) {
-        _connectionSocket = socket;
+	if (_connectionSocket == nil) {
+        _connectionSocket = [newSocket retain];
         
 		return YES;
     }
-	
-    return NO;
 }
 
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket 
@@ -186,9 +178,9 @@
 {
 	NDLog(self, @"Server socket connected to host '%@' on port %d", hostName, hostPort);
 	
-	NDMessageBroker *broker = [[[NDMessageBroker alloc] initWithSocket:socket] autorelease];
+	NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
     
-	NDLog(self, @"Server created communication broker: %@", broker);
+	NDLog(self, @"Server created communication broker %@ with socket %@", broker, socket);
 	
 	[broker setDelegate:self];
     
@@ -207,7 +199,7 @@
 
 -(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker
 {
-	NDLogError(self, @"Server message broker unexpectedly disconnected");
+	NDLogError(self, @"Server communication broker unexpectedly disconnected");
 }
 
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message

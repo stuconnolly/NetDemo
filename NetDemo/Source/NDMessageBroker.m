@@ -58,7 +58,7 @@
 			
 			_messageQueue = [[NSMutableArray alloc] init];
 			
-			[_socket readDataToLength:sizeof(UInt64) withTimeout:1.0 tag:0];
+			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1 tag:0];
 		}
 		else {
 			self = nil;
@@ -81,7 +81,7 @@
 {
 	NDLog(self, @"Message broker sending message: %@", message);
 	
-	if (_socket == nil) {
+	if ((_socket == nil) || (![_socket isConnected])) {
 		NDLogError(self, @"Broker failed to send message because socket doesn't exist");
 		return;
 	}
@@ -98,8 +98,8 @@
 	// Send header in little endian byte order
     header[0] = CFSwapInt64HostToLittle(header[0]);
     
-	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:1.0 tag:(long)0];
-    [_socket writeData:messageData withTimeout:1.0 tag:(long)1];
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1 tag:(long)0];
+    [_socket writeData:messageData withTimeout:-1 tag:(long)1];
 }
 
 #pragma mark -
@@ -136,7 +136,7 @@
 		// Convert from little endian to native
         header = CFSwapInt64LittleToHost(header); 
 		
-        [socket readDataToLength:(CFIndex)header withTimeout:1.0 tag:(long)1];
+        [socket readDataToLength:(CFIndex)header withTimeout:-1 tag:(long)1];
     }
 	// Data body
     else if (tag == 1) { 
