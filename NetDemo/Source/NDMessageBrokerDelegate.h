@@ -40,19 +40,19 @@
 @protocol NDMessageBrokerDelegate
 
 /**
+ * Called whenever the message broker sends a new message.
  *
- *
- * @param server
- * @param message
+ * @param broker  The calling broker instance 
+ * @param message The message that the broker sent
  */
 - (void)messageBroker:(NDMessageBroker *)broker didSendMessage:(NDNetworkMessage *)message;
 
 /**
+ * Called whenever the message broker receives a new message.
  *
- *
- * @param server
- * @param message
- */
+ * @param broker  The calling broker instance
+ * @param message The message that the broker received
+ */ 
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message;
 
 @end

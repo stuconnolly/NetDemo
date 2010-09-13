@@ -40,10 +40,10 @@
 @protocol NDLoggerDelegate
 
 /**
- *
+ * Called when the logger instance has been updated (i.e. a new log message added).
  * 
- * @param logger
- * @param message
+ * @param logger  The calling logger instance
+ * @param message The message that caused the logger to be updated 
  */
 - (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message;
 

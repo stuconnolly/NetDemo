@@ -90,7 +90,7 @@
 /**
  * Sends the supplied message to the connected server.
  *
- * @param message
+ * @param message The message that is to be sent
  */
 - (void)sendMessage:(NSString *)message
 {

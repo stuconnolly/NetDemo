@@ -107,6 +107,10 @@ void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments
 
 /**
  * Logs the supplied message.
+ *
+ * @param caller  The caller that logged the message
+ * @param message The message that is to be logged
+ * @param args    A variable number of arguments that are to be interpolated into the message string
  */
 void NDLog(id caller, NSString *message, ...)
 {		
@@ -119,7 +123,11 @@ void NDLog(id caller, NSString *message, ...)
 }
 
 /**
- * Logs the supplied message.
+ * Logs the supplied message as an error.
+ *
+ * @param caller  The caller that logged the message
+ * @param message The message that is to be logged
+ * @param args    A variable number of arguments that are to be interpolated into the message string
  */
 void NDLogError(id caller, NSString *message, ...)
 {		

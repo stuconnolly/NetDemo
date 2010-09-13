@@ -40,10 +40,10 @@
 @protocol NDNetworkServerDelegate
 
 /**
- *
+ * Called whenever the network receives a new message.
  * 
- * @param server
- * @param message
+ * @param server  The calling server instance
+ * @param message The message that the server received
  */
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message;
 

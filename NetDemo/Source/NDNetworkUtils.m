@@ -31,7 +31,9 @@
 #import "NDNetworkUtils.h"
 
 /**
+ * Checks the supplied string to detemine whether or not it is valid.
  *
+ * @param string The string that is to be validated
  */
 BOOL NDIsStringValidASCIIAndLength(NSString *string)
 {
@@ -47,7 +49,7 @@ BOOL NDIsStringValidASCIIAndLength(NSString *string)
 	char s[(len + 1)];
 	
 	// Copy the string to a C buffer
-	strcpy(s, [string UTF8String]);
+	(void)strcpy(s, [string UTF8String]);
 	
 	// Check that the string only contains valid ASCII characters (A-Z, 0-9 & space)
 	for (i = 0; i < len; i++)

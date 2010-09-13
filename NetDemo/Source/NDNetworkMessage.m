@@ -34,8 +34,13 @@
 
 @synthesize data;
 
+#pragma mark -
+#pragma mark Initialisation
+
 /**
+ * Returns a network message with the supplied data.
  *
+ * @param messageData An NSData instance encapsulating the message data
  */
 + (NDNetworkMessage *)messageWithData:(NSData *)messageData
 {
@@ -43,7 +48,9 @@
 }
 
 /**
+ * Initialises a network message with the supplied data.
  *
+ * @param messageData An NSData instance encapsulating the message data
  */
 - (id)initWithData:(NSData *)messageData
 {
@@ -70,6 +77,9 @@
 {
     [coder encodeObject:data forKey:@"NDMessageData"];
 }
+
+#pragma mark -
+#pragma mark Other
 
 /**
  * Dealloc.

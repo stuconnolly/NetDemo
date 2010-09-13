@@ -61,8 +61,6 @@
 	IBOutlet NSTextView *outputTextView;
 	
 	// Other
-	IBOutlet NSProgressIndicator *activityProgressIndicator;
-	IBOutlet NSTextField *activityLabelTextField;
 	IBOutlet NSTextField *portTextField;
 }
 

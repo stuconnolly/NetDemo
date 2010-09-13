@@ -37,8 +37,15 @@
 @synthesize caller;
 @synthesize message;
 
+#pragma mark -
+#pragma mark Initialisation 
+
 /**
  * Returns a new console message instance using the suppled message, date and connection.
+ *
+ * @param messageCaller The caller object that created the message
+ * @param logMessage    The actual log message
+ * @param date          The date for which the message should be logged for
  */
 + (NDLogMessage *)logMessageFromCaller:(NSString *)messageCaller withMessage:(NSString *)logMessage date:(NSDate *)date
 {
@@ -47,6 +54,10 @@
 
 /**
  * Initializes a new console message instance using the suppled message, date and connection.
+ * 
+ * @param messageCaller The caller object that created the message
+ * @param logMessage    The actual log message
+ * @param date          The date for which the message should be logged for
  */
 - (id)initWithCaller:(NSString *)messageCaller message:(NSString *)logMessage date:(NSDate *)date
 {
@@ -59,6 +70,9 @@
 	
 	return self;
 }
+
+#pragma mark -
+#pragma mark Other
 
 /**
  * Dealloc.

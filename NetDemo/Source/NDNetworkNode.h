@@ -47,7 +47,7 @@
 @property (readwrite, retain) NSHost *host;
 
 /**
- * @property port
+ * @property port The local port of this node
  */
 @property (readwrite, assign) NSUInteger port;
 
