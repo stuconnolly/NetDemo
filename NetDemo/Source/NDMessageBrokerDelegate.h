@@ -55,12 +55,4 @@
  */
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message;
 
-/**
- *
- *
- * @param server
- * @param message
- */
--(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker;
-
 @end

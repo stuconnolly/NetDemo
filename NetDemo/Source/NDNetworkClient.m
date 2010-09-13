@@ -33,9 +33,6 @@
 #import "NDLogger.h"
 #import "NDConstants.h"
 
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
 @interface NDNetworkClient (PrivateAPI)
 
 @property (readwrite, assign) BOOL isConnected;
@@ -74,7 +71,7 @@
  * Start the search for available services.
  */
 - (void)search
-{
+{	
 	[_browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] inDomain:NDServiceServiceDomain];
 }
 
@@ -128,7 +125,7 @@
 	
     NDMessageBroker *broker = [[NDMessageBroker alloc] initWithSocket:socket];
 	
-	NDLog(self, @"Client created communication broker %@ with socket %@", broker, socket);
+	NDLog(self, @"Client created communication broker %@ with socket on host %@, port %d", broker, [socket connectedHost], [socket connectedPort]);
 	
 	[socket release];
     
@@ -161,12 +158,16 @@
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)service moreComing:(BOOL)moreServicesComing
 {
-	NDLog(self, @"Client found service '%@' of type '%@' in domain '%@'", [service name], [service type], [service domain]);
-	
-	[_services addObject:service];
+	// Check that the name of the service we just found doesn't have a suffix of our process ID. If it does
+	// then it's our server and we don't want to connect to it.
+	if (![[service name] hasSuffix:[[NSNumber numberWithInt:[[NSProcessInfo processInfo] processIdentifier]] stringValue]]) {
+		NDLog(self, @"Client found service '%@' of type '%@' in domain '%@'", [service name], [service type], [service domain]);
+		
+		[_services addObject:service];
+	}
 	
 	// If there are no more servers to be supplied then stop searching
-	if (!moreServicesComing) {
+	if (([_services count] > 0) && (!moreServicesComing)) {
 		
 		// Stop looking for services
 		[netServiceBrowser stop];
@@ -175,7 +176,6 @@
 		if (delegate && [delegate respondsToSelector:@selector(networkClient:didFindServices:)]) {
 			[delegate networkClient:self didFindServices:_services];
 		}
-		
 	}
 }
 

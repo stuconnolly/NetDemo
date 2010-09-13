@@ -45,8 +45,6 @@
 
 	AsyncSocket *_socket;
 	NSMutableArray *_messageQueue;
-	
-    BOOL _connectionLostUnexpectedly;
 }
 
 /**

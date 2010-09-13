@@ -46,7 +46,7 @@
 	id <NDNetworkClientDelegate> delegate;
 	
 	BOOL isConnected;
-	
+		
 	NSMutableArray *_services;
 	NSNetServiceBrowser *_browser;
     NSNetService *_connectedService;

@@ -101,16 +101,6 @@
 		return;
 	}
 	
-	// If required start the client
-	if (!noClient) {
-		_client = [[NDNetworkClient alloc] init];
-		
-		[_client setDelegate:self];
-		
-		// Start the client's search for services
-		[_client search];
-	}
-	
 	// If required start the server
 	if (!noServer) {
 		_server = [[NDNetworkServer alloc] init];
@@ -119,6 +109,16 @@
 		
 		// Start the server
 		[_server startService];
+	}
+	
+	// If required start the client
+	if (!noClient) {
+		_client = [[NDNetworkClient alloc] init];
+		
+		[_client setDelegate:self];
+		
+		// Start the client's search for services
+		[_client search];
 	}
 }
 

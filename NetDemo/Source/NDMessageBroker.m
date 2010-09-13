@@ -50,9 +50,7 @@
 	if ((self = [super init])) {
 		
 		if ([socket canSafelySetDelegate]) {
-			
-			_connectionLostUnexpectedly = NO;
-			
+						
 			_socket = [socket retain];
 			
 			[_socket setDelegate:self];
@@ -109,19 +107,6 @@
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket
 {
 	NDLog(self, @"Broker socket disconnected: %@", socket);
-	
-    if (_connectionLostUnexpectedly) {
-        if (delegate && [delegate respondsToSelector:@selector(messageBrokerDidDisconnectUnexpectedly:)] ) {
-            [delegate messageBrokerDidDisconnectUnexpectedly:self];
-        }
-    }
-}
-
-- (void)onSocket:(AsyncSocket *)socket willDisconnectWithError:(NSError *)error 
-{
-	NDLogError(self, @"Broker socket disconnected with error: %@", [error localizedDescription]);
-	
-    _connectionLostUnexpectedly = YES;
 }
 
 - (void)onSocket:(AsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag 
@@ -158,7 +143,7 @@
 
 - (void)onSocket:(AsyncSocket *)socket didWriteDataWithTag:(long)tag 
 {
-    if (tag == 1) {
+    if (tag == NDNetworkMessageData) {
         NDNetworkMessage *message = [[_messageQueue objectAtIndex:0] retain];
         
 		[_messageQueue removeObjectAtIndex:0];

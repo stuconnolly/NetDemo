@@ -46,7 +46,7 @@
 	id <NDNetworkServerDelegate> delegate;
 	
 	BOOL _serviceRunning;
-	
+		
 	NSNetService *_service;
 	NDMessageBroker *_broker;
 	

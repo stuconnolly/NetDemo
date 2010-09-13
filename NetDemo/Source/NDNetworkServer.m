@@ -83,11 +83,11 @@
 		NDLog(self, @"Server is now listening for connections");
 		NDLog(self, @"Publishing service via Bonjour (Zeroconf) to advertise server on port %d", [_listeningSocket localPort]);
 		
-		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@", [[NSProcessInfo processInfo] hostName]];
+		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
 		// Advertise the service via Bonjour
 		_service = [[NSNetService alloc] initWithDomain:NDServiceServiceDomain type:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] name:serviceName port:[_listeningSocket localPort]];
-		
+				
 		if (_service) {
 			[_service setDelegate:self];
 			[_service publish];
@@ -160,7 +160,7 @@
 
 - (void)onSocket:(AsyncSocket *)socket didAcceptNewSocket:(AsyncSocket *)newSocket
 {	
-	NDLog(self, @"Server accepted new socket connection: %@", newSocket);
+	NDLog(self, @"Server accepted new socket connection from: %@", newSocket);
 
 	if (_connectionSocket == nil) {
         _connectionSocket = [newSocket retain];
@@ -202,11 +202,6 @@
 
 #pragma mark -
 #pragma mark Broker delegate methods
-
--(void)messageBrokerDidDisconnectUnexpectedly:(NDMessageBroker *)broker
-{
-	NDLogError(self, @"Server communication broker unexpectedly disconnected: %@", broker);
-}
 
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message
 {	
