@@ -33,7 +33,7 @@
 /**
  *
  */
-BOOL NDIsStringValidASCII(NSString *string)
+BOOL NDIsStringValidASCIIAndLength(NSString *string)
 {
 	NSUInteger i;
 	NSUInteger len = [string length];

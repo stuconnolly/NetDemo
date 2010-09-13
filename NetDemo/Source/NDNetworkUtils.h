@@ -28,4 +28,4 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-BOOL NDIsStringValidASCII(NSString *string);
+BOOL NDIsStringValidASCIIAndLength(NSString *string);
