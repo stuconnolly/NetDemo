@@ -43,7 +43,10 @@
 	if ((self = [super init])) {
 		
 		// Default to localhost
-		host = [NSHost currentHost];	
+		host = [NSHost currentHost];
+		
+		// Default port is zero, indicating that a random port should be chosen
+		port = 0;
 	}
 	
 	return self;

@@ -74,7 +74,7 @@
 		
 		NDLog(self, @"Starting server listening socket");
 		
-		if (![_listeningSocket acceptOnPort:(port) ? port : 0 error:&error] ) {
+		if (![_listeningSocket acceptOnPort:port error:&error] ) {
 			NDLogError(self, @"Failed to create server listening socket. Error: %@", [error localizedDescription]);
 						
 			return NO;
