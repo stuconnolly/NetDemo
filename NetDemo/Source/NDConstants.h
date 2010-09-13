@@ -34,6 +34,8 @@ enum {
 };
 typedef NSUInteger NDNetworkMessagePart;
 
+extern const CGFloat NDSocketDataReadTimeout;
+
 extern NSString *NDServerServiceType;
 extern NSString *NDServiceServiceDomain;
 extern NSString *NDServerTransmissionProtocol;

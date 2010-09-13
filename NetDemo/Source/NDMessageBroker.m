@@ -58,7 +58,7 @@
 			_messageQueue = [[NSMutableArray alloc] init];		
 			
 			// Start listening for data
-			[_socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:NDNetworkMessageHeader];
+			[_socket readDataToLength:sizeof(UInt64) withTimeout:NDSocketDataReadTimeout tag:NDNetworkMessageHeader];
 		}
 		else {
 			self = nil;
@@ -72,7 +72,7 @@
 #pragma mark Public API
 
 /**
- *
+ * Sends the supplied message via the broker's socket.
  *
  * @param message The MDNnetwork message to be send
  */
@@ -97,8 +97,8 @@
 	// Send header in little endian byte order
     header[0] = CFSwapInt64HostToLittle(header[0]);
     
-	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:-1.0 tag:NDNetworkMessageHeader];
-    [_socket writeData:messageData withTimeout:-1.0 tag:NDNetworkMessageData];
+	[_socket writeData:[NSData dataWithBytes:header length:sizeof(UInt64)] withTimeout:NDSocketDataReadTimeout tag:NDNetworkMessageHeader];
+    [_socket writeData:messageData withTimeout:NDSocketDataReadTimeout tag:NDNetworkMessageData];
 }
 
 #pragma mark -
@@ -123,7 +123,7 @@
         header = CFSwapInt64LittleToHost(header); 
 		
 		// Start listening for the actual data
-        [socket readDataToLength:(CFIndex)header withTimeout:-1.0 tag:NDNetworkMessageData];
+        [socket readDataToLength:(CFIndex)header withTimeout:NDSocketDataReadTimeout tag:NDNetworkMessageData];
     }
 	// Data body
     else if (tag == NDNetworkMessageData) { 
@@ -134,7 +134,7 @@
         } 
 		
 		// Start listening for the next message header
-		[socket readDataToLength:sizeof(UInt64) withTimeout:-1.0 tag:NDNetworkMessageHeader];
+		[socket readDataToLength:sizeof(UInt64) withTimeout:NDSocketDataReadTimeout tag:NDNetworkMessageHeader];
     }
     else {
         NDLogError(self, @"Unknown tag when reading socket data: %d", tag);
@@ -144,6 +144,8 @@
 - (void)onSocket:(AsyncSocket *)socket didWriteDataWithTag:(long)tag 
 {
     if (tag == NDNetworkMessageData) {
+		NDLog(self, @"Broker did write data to socket");
+		
         NDNetworkMessage *message = [[_messageQueue objectAtIndex:0] retain];
         
 		[_messageQueue removeObjectAtIndex:0];
