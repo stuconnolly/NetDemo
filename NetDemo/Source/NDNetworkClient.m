@@ -94,8 +94,10 @@
  */
 - (void)sendMessage:(NSString *)message
 {
-	// Send the UTF-8 encoded message via the message broker
-	[_broker sendMessage:[NDNetworkMessage messageWithData:[message dataUsingEncoding:NSUTF8StringEncoding]]];
+	if (_broker && [_socket isConnected]) {
+		// Send the UTF-8 encoded message via the message broker
+		[_broker sendMessage:[NDNetworkMessage messageWithData:[message dataUsingEncoding:NSUTF8StringEncoding]]];
+	}
 }
 
 #pragma mark -
@@ -117,6 +119,8 @@
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket
 {
     NDLog(self, @"Client socket disconnected: %@", socket);
+	
+	isConnected = NO;
 }
 
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 

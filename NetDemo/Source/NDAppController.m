@@ -90,7 +90,9 @@
 		return;
 	}
 	
-	[_client sendMessage:[inputTextView string]];
+	if ([_client isConnected]) {
+		[_client sendMessage:[inputTextView string]];
+	}
 }
 
 #pragma mark -
