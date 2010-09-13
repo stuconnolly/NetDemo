@@ -32,6 +32,7 @@
 #import "NDNetworkServer.h"
 #import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
+#import "NDNetworkUtils.h"
 #import "NDLogger.h"
 
 @implementation NDAppController
@@ -75,12 +76,21 @@
 {
 	NSString *message = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
-	if ([message length]) {
-		[_client sendMessage:[inputTextView string]];
-	}
-	else {
+	if (![message length]) {
+		NDLogError(self, @"Attempting to send empty message");
 		NSBeep();
+		return;
 	}
+	
+	NDLog(self, @"Preparing to send message '%@'", message);
+	
+	if (!NDIsStringValidASCII(message)) {
+		NDLogError(self, @"Message is not valid. Message can only contain 64 ASCII characters (0-9, a-z or A-Z). Not sending.");
+		NSBeep();
+		return;
+	}
+	
+	[_client sendMessage:[inputTextView string]];
 }
 
 #pragma mark -
