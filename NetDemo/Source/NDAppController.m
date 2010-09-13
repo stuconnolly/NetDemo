@@ -149,7 +149,7 @@
 	
 	// Check the message we just received is valid
 	if (!NDIsStringValidASCIIAndLength(string)) {
-		NDLogError(self, @"Message received '%@' is not valid. Either contained more than 64 charcaters or non-valid ASCII characters (0-9, a-z or A-Z).");
+		NDLogError(self, @"Message received '%@' is not valid. Either contained more than 64 charcaters or non-valid ASCII characters (0-9, a-z or A-Z). Discarding.");
 		NSBeep();
 		return;
 	}
