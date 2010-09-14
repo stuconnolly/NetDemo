@@ -33,5 +33,4 @@
 const CGFloat NDSocketDataReadTimeout  = -1.0;
 
 NSString *NDServerServiceType          = @"netdemo";
-NSString *NDServiceServiceDomain       = @"local.";
 NSString *NDServerTransmissionProtocol = @"tcp";

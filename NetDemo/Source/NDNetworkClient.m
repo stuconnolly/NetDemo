@@ -72,7 +72,7 @@
  */
 - (void)search
 {	
-	[_browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] inDomain:NDServiceServiceDomain];
+	[_browser searchForServicesOfType:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] inDomain:@""];
 }
 
 /**

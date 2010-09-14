@@ -86,7 +86,7 @@
 		NSString *serviceName = [NSString stringWithFormat:@"NetDemo-%@-%d", [[NSProcessInfo processInfo] hostName], [[NSProcessInfo processInfo] processIdentifier]];
 		
 		// Advertise the service via Bonjour
-		_service = [[NSNetService alloc] initWithDomain:NDServiceServiceDomain type:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] name:serviceName port:[_listeningSocket localPort]];
+		_service = [[NSNetService alloc] initWithDomain:@"" type:[NSString stringWithFormat:@"_%@._%@.", NDServerServiceType, NDServerTransmissionProtocol] name:serviceName port:[_listeningSocket localPort]];
 				
 		if (_service) {
 			[_service setDelegate:self];
