@@ -41,21 +41,24 @@
  * Returns a network message with the supplied data.
  *
  * @param messageData An NSData instance encapsulating the message data
+ * @param messageDate An NSDate instance representing the messages creation date
  */
-+ (NDNetworkMessage *)messageWithData:(NSData *)messageData
++ (NDNetworkMessage *)messageWithData:(NSData *)messageData date:(NSDate *)messageDate
 {
-	return [[[NDNetworkMessage alloc] initWithData:messageData] autorelease];
+	return [[[NDNetworkMessage alloc] initWithData:messageData date:messageDate] autorelease];
 }
 
 /**
  * Initialises a network message with the supplied data.
  *
  * @param messageData An NSData instance encapsulating the message data
+ * @param messageDate An NSDate instance representing the messages creation date
  */
-- (id)initWithData:(NSData *)messageData
+- (id)initWithData:(NSData *)messageData date:(NSDate *)messageDate
 {
 	if ((self = [super init])) {
 		[self setData:messageData];
+		[self setDate:messageDate];
 	}
 	
 	return self;
@@ -86,7 +89,8 @@
  */
 - (void)dealloc
 {
-	if (data) [data dealloc], data = nil;
+	[date release], date = nil;
+	[data release], data = nil;
 	
 	[super dealloc];
 }

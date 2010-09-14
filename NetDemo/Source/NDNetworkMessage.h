@@ -37,16 +37,23 @@
  */
 @interface NDNetworkMessage : NSObject <NSCoding> 
 {
+	NSDate *date;
 	NSData *data;
 }
 
 /**
+ * @property date The message date
+ */
+@property (readwrite, retain) NSDate *date;
+
+
+/**
  * @property data The messages data payload
  */
-@property (readwrite, assign) NSData *data;
+@property (readwrite, retain) NSData *data;
 
-+ (NDNetworkMessage *)messageWithData:(NSData *)messageData;
++ (NDNetworkMessage *)messageWithData:(NSData *)messageData date:(NSDate *)messageDate;
 
-- (id)initWithData:(NSData *)messageData;
+- (id)initWithData:(NSData *)messageData date:(NSDate *)messageDate;
 
 @end
