@@ -77,7 +77,14 @@
 	NSString *message = [[inputTextView string] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	
 	if (![message length]) {
-		NDLogError(self, @"Attempting to send an empty message");
+		NDLogError(self, @"Attempting to send empty message");
+		return;
+	}
+	
+	NDLog(self, @"Preparing to send message '%@'", message);
+	
+	if (!NDIsStringValidASCIIAndLength(message)) {
+		NDLogError(self, @"Message is not valid. Message can only contain 64 ASCII characters (0-9, a-z or A-Z). Not sending.");
 		return;
 	}
 	
@@ -141,6 +148,12 @@
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
 	NSString *string = [[NSString alloc] initWithBytes:[[message data] bytes] length:[[message data] length] encoding:NSUTF8StringEncoding];
+	
+	// Check the message we just received is valid
+	if (!NDIsStringValidASCIIAndLength(string)) {
+		NDLogError(self, @"Message received '%@' is not valid. Either contained more than 64 charcaters or non-valid ASCII characters (0-9, a-z or A-Z). Discarding.");
+		return;
+	}	
 	
 	[outputTextView setEditable:YES];
 	[outputTextView setString:@""];
