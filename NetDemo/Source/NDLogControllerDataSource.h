@@ -29,74 +29,7 @@
  */
 
 #import "NDLogController.h"
-#import "NDNetworkMessage.h"
 
-@implementation NDLogController
-
-#pragma mark -
-#pragma mark Initialisation
-
-/**
- * UI initialisation.
- */
-- (void)awakeFromNib
-{	
-	_dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S.%F" allowNaturalLanguage:NO];
-	
-	for (NSTableColumn *column in [logMessagesTableView tableColumns])
-	{
-		[[column dataCell] setFont:[NSFont fontWithName:@"Courier" size:12.0]];
-	}	
-	
-	[[NDLogger logger] setDelegate:self];
-}
-
-#pragma mark -
-#pragma mark IB action methods
-
-/**
- * Clears the network log of all messages.
- */
-- (IBAction)clearLog:(id)sender
-{
-	[[NDLogger logger] clearLog];
-	
-	[clearLogButton setEnabled:NO];
-	
-	[logMessagesTableView reloadData];
-}
-
-/**
- * Closes the log panel.
- */
-- (IBAction)closeLogPanel:(id)sender
-{
-	[self close];
-}
-
-#pragma mark -
-#pragma mark Logger delegate methods
-
-- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message
-{	
-	[clearLogButton setEnabled:YES];
-	
-	[logMessagesTableView reloadData];
-	
-	[logMessagesTableView scrollRowToVisible:([logMessagesTableView numberOfRows] - 1)];
-}
-
-#pragma mark -
-#pragma mark Other
-
-/**
- * Dealloc.
- */
-- (void)dealloc
-{
-	[_dateFormatter release], _dateFormatter = nil;
-	
-	[super dealloc];
-}
+@interface NDLogController (NDLogControllerDataSource) <NSTableViewDataSource>
 
 @end

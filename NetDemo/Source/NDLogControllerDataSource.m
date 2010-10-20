@@ -28,75 +28,37 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDLogController.h"
-#import "NDNetworkMessage.h"
+#import "NDLogControllerDataSource.h"
+#import "NDLogMessage.h"
 
-@implementation NDLogController
-
-#pragma mark -
-#pragma mark Initialisation
+@implementation NDLogController (NDLogControllerDataSource)
 
 /**
- * UI initialisation.
+ * Table view datasource method. Returns the number of rows in the table veiw.
  */
-- (void)awakeFromNib
-{	
-	_dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S.%F" allowNaturalLanguage:NO];
-	
-	for (NSTableColumn *column in [logMessagesTableView tableColumns])
-	{
-		[[column dataCell] setFont:[NSFont fontWithName:@"Courier" size:12.0]];
-	}	
-	
-	[[NDLogger logger] setDelegate:self];
-}
-
-#pragma mark -
-#pragma mark IB action methods
-
-/**
- * Clears the network log of all messages.
- */
-- (IBAction)clearLog:(id)sender
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	[[NDLogger logger] clearLog];
-	
-	[clearLogButton setEnabled:NO];
-	
-	[logMessagesTableView reloadData];
+	return [[[NDLogger logger] logMessages] count];
 }
 
 /**
- * Closes the log panel.
+ * Table view datasource method. Returns the specific object for the request column and row.
  */
-- (IBAction)closeLogPanel:(id)sender
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	[self close];
-}
-
-#pragma mark -
-#pragma mark Logger delegate methods
-
-- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message
-{	
-	[clearLogButton setEnabled:YES];
+	NSString *returnValue = nil;
+	NSMutableDictionary *stringAtributes = nil;
 	
-	[logMessagesTableView reloadData];
+	id object = [[[[NDLogger logger] logMessages] objectAtIndex:row] valueForKey:[tableColumn identifier]];
 	
-	[logMessagesTableView scrollRowToVisible:([logMessagesTableView numberOfRows] - 1)];
-}
-
-#pragma mark -
-#pragma mark Other
-
-/**
- * Dealloc.
- */
-- (void)dealloc
-{
-	[_dateFormatter release], _dateFormatter = nil;
+	returnValue = ([[tableColumn identifier] isEqualToString:@"messageDate"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : object;
 	
-	[super dealloc];
+	// If this is an error message give it a red colour
+	if ([(NDLogMessage *)[[[NDLogger logger] logMessages] objectAtIndex:row] isError]) {
+		stringAtributes = [NSMutableDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
+	}
+	
+	return [[[NSAttributedString alloc] initWithString:returnValue attributes:stringAtributes] autorelease];
 }
 
 @end

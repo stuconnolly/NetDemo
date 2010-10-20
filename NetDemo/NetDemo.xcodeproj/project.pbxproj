@@ -19,6 +19,8 @@
 		17C6A57A1231586F00E444D9 /* NDLogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 17C6A5791231586F00E444D9 /* NDLogMessage.m */; };
 		17D508EF1235A2200091C008 /* NDNetworkClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D508EE1235A2200091C008 /* NDNetworkClient.m */; };
 		17D508F21235A22C0091C008 /* NDNetworkServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D508F11235A22C0091C008 /* NDNetworkServer.m */; };
+		17DC8F1F126FAC8500E9AAEC /* NDLogControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 17DC8F1E126FAC8500E9AAEC /* NDLogControllerDataSource.m */; };
+		17DC8F4A126FADF100E9AAEC /* NDAppControllerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 17DC8F49126FADF100E9AAEC /* NDAppControllerDataSource.m */; };
 		1DDD58160DA1D0A300B32029 /* NetDemo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* NetDemo.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NDAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NDAppController.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -56,6 +58,10 @@
 		17D508EE1235A2200091C008 /* NDNetworkClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkClient.m; sourceTree = "<group>"; };
 		17D508F01235A22C0091C008 /* NDNetworkServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDNetworkServer.h; sourceTree = "<group>"; };
 		17D508F11235A22C0091C008 /* NDNetworkServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDNetworkServer.m; sourceTree = "<group>"; };
+		17DC8F1D126FAC8500E9AAEC /* NDLogControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDLogControllerDataSource.h; sourceTree = "<group>"; };
+		17DC8F1E126FAC8500E9AAEC /* NDLogControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDLogControllerDataSource.m; sourceTree = "<group>"; };
+		17DC8F48126FADF100E9AAEC /* NDAppControllerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDAppControllerDataSource.h; sourceTree = "<group>"; };
+		17DC8F49126FADF100E9AAEC /* NDAppControllerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDAppControllerDataSource.m; sourceTree = "<group>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NetDemo.xib; sourceTree = "<group>"; };
 		256AC3D80F4B6AC300CF3369 /* NDAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NDAppController.h; sourceTree = "<group>"; };
 		256AC3D90F4B6AC300CF3369 /* NDAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDAppController.m; sourceTree = "<group>"; };
@@ -189,6 +195,10 @@
 		17DC8F0F126FAB7800E9AAEC /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				17DC8F48126FADF100E9AAEC /* NDAppControllerDataSource.h */,
+				17DC8F49126FADF100E9AAEC /* NDAppControllerDataSource.m */,
+				17DC8F1D126FAC8500E9AAEC /* NDLogControllerDataSource.h */,
+				17DC8F1E126FAC8500E9AAEC /* NDLogControllerDataSource.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -304,6 +314,8 @@
 				17A0AE551239301200F903F4 /* NDMessageBroker.m in Sources */,
 				177E79CF123B992700A02EF6 /* NDConstants.m in Sources */,
 				17ABA437123E88B100CE20C3 /* NDNetworkUtils.m in Sources */,
+				17DC8F1F126FAC8500E9AAEC /* NDLogControllerDataSource.m in Sources */,
+				17DC8F4A126FADF100E9AAEC /* NDAppControllerDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
