@@ -33,6 +33,9 @@
 /**
  * Checks the supplied string to detemine whether or not it is valid.
  *
+ * Note that this method doesn't actually test if a string is valid ASCII, rather it tests whether it is valid
+ * against a subset of ASCII characaters (0-9, a-z, A-Z & space). It is however no longer used.
+ *
  * @param string The string that is to be validated
  */
 BOOL NDIsStringValidASCIIAndLength(NSString *string)
