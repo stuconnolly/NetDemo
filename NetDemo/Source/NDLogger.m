@@ -28,7 +28,6 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#import "NDLogger.h"
 #import "NDLogMessage.h"
 
 static NDLogger *logger = nil;

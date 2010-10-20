@@ -30,7 +30,6 @@
 
 #import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
-#import "NDLogger.h"
 #import "NDConstants.h"
 
 @interface NDNetworkClient (PrivateAPI)

@@ -170,6 +170,7 @@
 				256AC3D90F4B6AC300CF3369 /* NDAppController.m */,
 				17C6A4A91230592600E444D9 /* NDLogController.h */,
 				17C6A4AA1230592600E444D9 /* NDLogController.m */,
+				17DC8F0F126FAB7800E9AAEC /* Categories */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -183,6 +184,13 @@
 				17892E2A12319B95002FD07B /* NDNetworkMessage.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		17DC8F0F126FAB7800E9AAEC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {

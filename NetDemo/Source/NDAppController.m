@@ -32,8 +32,6 @@
 #import "NDNetworkServer.h"
 #import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
-#import "NDNetworkUtils.h"
-#import "NDLogger.h"
 
 @implementation NDAppController
 
@@ -82,11 +80,6 @@
 	}
 	
 	NDLog(self, @"Preparing to send message '%@'", message);
-	
-	if (!NDIsStringValidASCIIAndLength(message)) {
-		NDLogError(self, @"Message is not valid. Message can only contain 64 ASCII characters (0-9, a-z or A-Z). Not sending.");
-		return;
-	}
 	
 	if ([_client isConnected]) {
 		NDLog(self, @"Preparing to send message '%@'", message);
@@ -147,13 +140,7 @@
 
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
-	NSString *string = [[NSString alloc] initWithBytes:[[message data] bytes] length:[[message data] length] encoding:NSUTF8StringEncoding];
-	
-	// Check the message we just received is valid
-	if (!NDIsStringValidASCIIAndLength(string)) {
-		NDLogError(self, @"Message received '%@' is not valid. Either contained more than 64 charcaters or non-valid ASCII characters (0-9, a-z or A-Z). Discarding.");
-		return;
-	}	
+	NSString *string = [[NSString alloc] initWithBytes:[[message data] bytes] length:[[message data] length] encoding:NSUTF8StringEncoding];	
 	
 	[outputTextView setEditable:YES];
 	[outputTextView setString:@""];

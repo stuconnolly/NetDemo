@@ -31,7 +31,6 @@
 #import "NDLogController.h"
 #import "NDLogMessage.h"
 #import "NDNetworkMessage.h"
-#import "NDLogger.h"
 
 @implementation NDLogController
 
