@@ -39,7 +39,7 @@
  *
  * Core application controller class.
  */
-@interface NDAppController : NSWindowController <NSApplicationDelegate, NDNetworkServerDelegate, NDNetworkClientDelegate> 
+@interface NDAppController : NSWindowController <NDNetworkServerDelegate, NDNetworkClientDelegate> 
 {		
 	// Core instances
 	NDNetworkServer *_server;
