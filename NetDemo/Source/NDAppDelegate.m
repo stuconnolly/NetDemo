@@ -39,8 +39,8 @@
 {		
 	NSArray *args = [[NSProcessInfo processInfo] arguments];
 	
-	BOOL noServer = [args containsObject:@"--no-server"];
-	BOOL noClient = [args containsObject:@"--no-client"];
+	BOOL noServer = ([args containsObject:@"--no-server"] || [args containsObject:@"-ns"]);
+	BOOL noClient = ([args containsObject:@"--no-client"] || [args containsObject:@"-nc"]);
 	
 	if (noServer && noClient) {
 		NDLogError(self, @"Application started with no client or server");
@@ -73,7 +73,8 @@
  */
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
-	[_server stopService];
+	if (_client) [_client disconnect];
+	if (_server) [_server stopService];
 }
 
 @end

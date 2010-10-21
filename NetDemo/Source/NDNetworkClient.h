@@ -67,6 +67,7 @@
 
 - (void)search;
 - (void)connect;
+- (void)disconnect;
 - (void)sendMessage:(NSString *)message;
 
 @end

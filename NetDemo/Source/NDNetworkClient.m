@@ -86,6 +86,17 @@
 }
 
 /**
+ * Disconnects the client socket connection to the server if established.
+ */
+- (void)diconnect
+{
+	if ([_socket isConnected]) {
+		[_socket disconnect];
+		[_socket release], _socket = nil; 
+	}
+}
+
+/**
  * Sends the supplied message to the connected server.
  *
  * @param message The message that is to be sent

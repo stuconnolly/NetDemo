@@ -181,8 +181,8 @@
  */
 - (void)dealloc
 {
-	[_server release], _server = nil;
-	[_client release], _client = nil;
+	if (_server) [_server release], _server = nil;
+	if (_client) [_client release], _client = nil;
 	
 	[_messages release], _messages = nil;
 }
