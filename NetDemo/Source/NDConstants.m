@@ -30,7 +30,8 @@
 
 #import "NDConstants.h"
 
-const CGFloat NDSocketDataReadTimeout  = -1.0;
+const CGFloat NDSocketDataReadTimeout    = -1.0;
+const GCFloat NDServiceResolutionTimeout = 10.0;
 
 const NSString *NDServerServiceType          = @"netdemo";
 const NSString *NDServerTransmissionProtocol = @"tcp";

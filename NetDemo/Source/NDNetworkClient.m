@@ -82,7 +82,7 @@
     
 	[service setDelegate:self];
 	
-    [service resolveWithTimeout:10.0];
+    [service resolveWithTimeout:NDServiceResolutionTimeout];
 }
 
 /**
