@@ -90,9 +90,11 @@
  */
 - (void)diconnect
 {
-	if ([_socket isConnected]) {
+	if (isConnected && [_socket isConnected]) {
 		[_socket disconnect];
-		[_socket release], _socket = nil; 
+		[_socket release], _socket = nil;
+		
+		isConnected = NO;
 	}
 }
 
