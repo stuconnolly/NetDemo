@@ -36,6 +36,34 @@
 @implementation NDAppController
 
 #pragma mark -
+#pragma mark Initialisation
+
+/**
+ * Init.
+ */
+- (id)init
+{
+	if ((self = [super initWithWindowNibName:@"NetDemo"])) {
+		_messages = [[NSMutableArray alloc] init];
+	}
+	
+	return self;
+}
+
+/**
+ * UI initialisation.
+ */
+- (void)awakeFromNib
+{	
+	_dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:@"%H:%M:%S" allowNaturalLanguage:NO];
+	
+	for (NSTableColumn *column in [outputTableView tableColumns])
+	{
+		[[column dataCell] setFont:[NSFont fontWithName:@"Courier" size:12.0]];
+	}		
+}
+
+#pragma mark -
 #pragma mark IB action methods
 
 /**
@@ -78,14 +106,24 @@
 		NDLogError(self, @"Attempting to send empty message");
 		return;
 	}
-	
-	NDLog(self, @"Preparing to send message '%@'", message);
-	
+		
 	if ([_client isConnected]) {
 		NDLog(self, @"Preparing to send message '%@'", message);
 		
 		[_client sendMessage:[inputTextView string]];
 	}
+}
+
+/**
+ * Clears the messages table view.
+ */
+- (IBAction)clearMessages:(id)sender
+{
+	[_messages removeAllObjects];
+	
+	[clearButton setEnabled:NO];
+	
+	[outputTableView reloadData];
 }
 
 #pragma mark -
@@ -140,14 +178,11 @@
 
 - (void)networkServer:(NDNetworkServer *)server didRecieveMessage:(NDNetworkMessage *)message
 {
-	NSString *string = [[NSString alloc] initWithBytes:[[message data] bytes] length:[[message data] length] encoding:NSUTF8StringEncoding];	
+	[_messages addObject:message];
 	
-	[outputTextView setEditable:YES];
-	[outputTextView setString:@""];
-	[outputTextView setString:string];
-	[outputTextView setEditable:NO];
+	[clearButton setEnabled:YES];
 	
-	[string release];
+	[outputTableView reloadData];
 }
 
 #pragma mark -
@@ -195,6 +230,8 @@
 {
 	[_server release], _server = nil;
 	[_client release], _client = nil;
+	
+	[_messages release], _messages = nil;
 }
 
 @end

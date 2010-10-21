@@ -30,9 +30,14 @@
 
 #import "NDNetworkMessage.h"
 
+// Constants
+static const NSString *NDMessageDate = @"NDMessageDate";
+static const NSString *NDMessageData = @"NDMessageData";
+
 @implementation NDNetworkMessage
 
 @synthesize data;
+@synthesize date;
 
 #pragma mark -
 #pragma mark Initialisation
@@ -57,8 +62,8 @@
 - (id)initWithData:(NSData *)messageData date:(NSDate *)messageDate
 {
 	if ((self = [super init])) {
-		[self setData:messageData];
 		[self setDate:messageDate];
+		[self setData:messageData];
 	}
 	
 	return self;
@@ -70,7 +75,8 @@
 - (id)initWithCoder:(NSCoder *)coder 
 {
     if ((self = [super init])) {
-        data = [[coder decodeObjectForKey:@"NDMessageData"] retain];
+		date = [[coder decodeObjectForKey:NDMessageDate] retain];
+        data = [[coder decodeObjectForKey:NDMessageData] retain];
     }
 	
     return self;
@@ -78,7 +84,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder 
 {
-    [coder encodeObject:data forKey:@"NDMessageData"];
+	[coder encodeObject:date forKey:NDMessageDate];
+    [coder encodeObject:data forKey:NDMessageData];
 }
 
 #pragma mark -

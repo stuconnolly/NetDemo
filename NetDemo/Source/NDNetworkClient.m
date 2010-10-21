@@ -30,7 +30,6 @@
 
 #import "NDNetworkClient.h"
 #import "NDNetworkMessage.h"
-#import "NDConstants.h"
 
 @interface NDNetworkClient (PrivateAPI)
 
@@ -94,6 +93,7 @@
 - (void)sendMessage:(NSString *)message
 {
 	if (_broker && [_socket isConnected]) {
+		
 		// Send the UTF-8 encoded message via the message broker
 		[_broker sendMessage:[NDNetworkMessage messageWithData:[message dataUsingEncoding:NSUTF8StringEncoding] date:[NSDate date]]];
 	}

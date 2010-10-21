@@ -32,5 +32,5 @@
 
 const CGFloat NDSocketDataReadTimeout  = -1.0;
 
-NSString *NDServerServiceType          = @"netdemo";
-NSString *NDServerTransmissionProtocol = @"tcp";
+const NSString *NDServerServiceType          = @"netdemo";
+const NSString *NDServerTransmissionProtocol = @"tcp";

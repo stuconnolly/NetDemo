@@ -32,4 +32,5 @@
     #import <Cocoa/Cocoa.h>
 
 	#import "NDLogger.h"
+	#import "NDConstants.h"
 #endif

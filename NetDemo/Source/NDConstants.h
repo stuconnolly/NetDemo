@@ -36,5 +36,5 @@ typedef NSUInteger NDNetworkMessagePart;
 
 extern const CGFloat NDSocketDataReadTimeout;
 
-extern NSString *NDServerServiceType;
-extern NSString *NDServerTransmissionProtocol;
+extern const NSString *NDServerServiceType;
+extern const NSString *NDServerTransmissionProtocol;

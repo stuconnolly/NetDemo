@@ -45,6 +45,12 @@
 	NDNetworkServer *_server;
 	NDNetworkClient *_client;
 	
+	// Messages array
+	NSMutableArray *_messages;
+	
+	// Date formatter
+	NSDateFormatter *_dateFormatter;
+	
 	// Controllers
 	IBOutlet NDLogController *_logController;
 	
@@ -52,13 +58,13 @@
 	IBOutlet NSPanel *portPanel;
 	
 	// Buttons
-	IBOutlet NSButton *quitButton;
 	IBOutlet NSButton *sendButton;
 	IBOutlet NSButton *setPortButton;
+	IBOutlet NSButton *clearButton;
 	
-	// Text views
+	// Input/output views
 	IBOutlet NSTextView *inputTextView;
-	IBOutlet NSTextView *outputTextView;
+	IBOutlet NSTableView *outputTableView;
 	
 	// Other
 	IBOutlet NSTextField *portTextField;
@@ -68,5 +74,6 @@
 - (IBAction)setPort:(id)sender;
 - (IBAction)closeSheet:(id)sender;
 - (IBAction)sendMessage:(id)sender;
+- (IBAction)clearMessages:(id)sender;
 
 @end

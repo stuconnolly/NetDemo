@@ -32,4 +32,24 @@
 
 @implementation NDAppController (NDAppControllerDataSource)
 
+/**
+ * Table view datasource method. Returns the number of rows in the table veiw.
+ */
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+	return [_messages count];
+}
+
+/**
+ * Table view datasource method. Returns the specific object for the request column and row.
+ */
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{	
+	id object = [[_messages objectAtIndex:row] valueForKey:[tableColumn identifier]];
+		
+	NSString *returnValue = ([[tableColumn identifier] isEqualToString:@"date"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : [[[NSString alloc] initWithBytes:[object bytes] length:[object length] encoding:NSUTF8StringEncoding] autorelease];
+		
+	return returnValue;
+}
+
 @end

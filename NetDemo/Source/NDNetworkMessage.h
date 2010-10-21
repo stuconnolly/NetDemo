@@ -46,7 +46,6 @@
  */
 @property (readwrite, retain) NSDate *date;
 
-
 /**
  * @property data The messages data payload
  */
