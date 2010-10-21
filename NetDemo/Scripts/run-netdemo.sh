@@ -35,7 +35,7 @@
 # Description: This script is provided as a convenient way of starting two instances of NetDemo in order to
 #              enable two way communication on the same machine. This script should only be run by Xcode.
 
-BUILD_PRODUCT="${BUILT_PRODUCTS_DIR}/${TARGET_NAME}${WRAPPER_SUFFIX}"
+BUILD_PRODUCT="${BUILT_PRODUCTS_DIR}/NetDemo.app"
 
 open --new "${BUILD_PRODUCT}"
 
