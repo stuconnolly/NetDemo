@@ -137,11 +137,15 @@
 - (void)networkClient:(NDNetworkClient *)client didConnectToHost:(NSString *)host;
 {
 	[[self window] setTitle:[NSString stringWithFormat:@"NetDemo (Connected to '%@')", host]];
+	
+	[disconnectButton setEnabled:YES];
 }
 
 - (void)networkClient:(NDNetworkClient *)client didDisconnectFromHost:(NSString *)host
 {
 	[[self window] setTitle:@"NetDemo (Not Connected)"];
+	
+	[disconnectButton setEnabled:NO];
 }
 
 #pragma mark -

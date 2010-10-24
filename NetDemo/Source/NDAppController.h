@@ -57,6 +57,7 @@
 	// Buttons
 	IBOutlet NSButton *sendButton;
 	IBOutlet NSButton *clearButton;
+	IBOutlet NSButton *disconnectButton;
 	
 	// Input/output views
 	IBOutlet NSTextView *inputTextView;
