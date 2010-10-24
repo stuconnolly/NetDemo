@@ -56,9 +56,10 @@
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message;
 
 /**
+ * Called whenever the message broker loses it's socket connection to the client/server.
  *
- *
- * 
+ * @param broker The calling broker instance
+ * @param socet  The socket that disconnected
  */
 - (void)messageBroker:(NDMessageBroker *)broker lostSocketConnection:(AsyncSocket *)socket;
 

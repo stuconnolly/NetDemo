@@ -94,7 +94,7 @@
 }
 
 /**
- *
+ * Disconnects the client from the server if connected.
  */
 - (IBAction)disconnect:(id)sender
 {

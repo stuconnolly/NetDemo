@@ -46,14 +46,18 @@
 - (void)networkClient:(NDNetworkClient *)client didFindServices:(NSArray *)services;
 
 /**
+ * Called whenever the client connects to a server. 
  *
- *
+ * @param client The calling client instance
+ * @param host   The hostname of the server the client connected to
  */
 - (void)networkClient:(NDNetworkClient *)client didConnectToHost:(NSString *)host;
 
 /**
+ * Called whenever the client disconnects from a server.
  *
- *
+ * @param client The calling client instance
+ * @param host   The hostname of the server the client disconnected from
  */
 - (void)networkClient:(NDNetworkClient *)client didDisconnectFromHost:(NSString *)host;
 
