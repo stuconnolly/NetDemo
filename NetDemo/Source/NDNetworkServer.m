@@ -208,6 +208,11 @@
 	}
 }
 
+- (void)messageBroker:(NDMessageBroker *)broker lostSocketConnection:(AsyncSocket *)socket
+{	
+	
+}
+
 #pragma mark -
 #pragma mark Other
 

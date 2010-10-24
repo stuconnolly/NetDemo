@@ -66,6 +66,8 @@
 		// Start the client's search for services
 		[_client search];
 	}
+	
+	[[self window] setTitle:@"NetDemo (Not Connected)"];
 }
 
 /**

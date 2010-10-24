@@ -88,7 +88,7 @@
 /**
  * Disconnects the client socket connection to the server if established.
  */
-- (void)diconnect
+- (void)disconnect
 {
 	if (isConnected && [_socket isConnected]) {
 		[_socket disconnect];
@@ -128,13 +128,6 @@
     return NO;
 }
 
-- (void)onSocketDidDisconnect:(AsyncSocket *)socket
-{
-    NDLog(self, @"Client socket disconnected: %@", socket);
-	
-	isConnected = NO;
-}
-
 - (void)onSocket:(AsyncSocket *)socket didConnectToHost:(NSString *)hostName port:(UInt16)hostPort 
 {      
 	NDLog(self, @"Client socket connected to host '%@' on port %d", hostName, hostPort);
@@ -152,6 +145,11 @@
 	_broker = broker;
     
 	isConnected = YES;
+	
+	// Tell the delegate that we've connected to the server
+	if (delegate && [delegate respondsToSelector:@selector(networkClient:didConnectToHost:)]) {
+		[delegate networkClient:self didConnectToHost:hostName];
+	}
 }
 
 - (void)onSocket:(AsyncSocket *)sock willDisconnectWithError:(NSError *)error
@@ -242,6 +240,17 @@
 - (void)netService:(NSNetService *)service didNotResolve:(NSDictionary *)error
 {
 	NDLogError(self, @"Failed to resolve service. Error: %@", [error objectForKey:NSNetServicesErrorCode]);
+}
+
+#pragma mark -
+#pragma mark Broker delegate methods
+
+- (void)messageBroker:(NDMessageBroker *)broker lostSocketConnection:(AsyncSocket *)socket
+{	
+	// Inform the delegate that we found a service
+	if (delegate && [delegate respondsToSelector:@selector(networkClient:didDisconnectFromHost:)]) {
+		[delegate networkClient:self didDisconnectFromHost:[socket connectedHost]];
+	}
 }
 
 #pragma mark -

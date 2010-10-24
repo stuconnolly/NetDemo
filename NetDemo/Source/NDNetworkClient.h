@@ -30,9 +30,9 @@
 
 #import "NDNetworkNode.h"
 
-@protocol NDNetworkClientDelegate;
-
 @class NDMessageBroker, AsyncSocket;
+
+@protocol NDMessageBroker, NDNetworkClientDelegate;
 
 /**
  * @class NDNetworkClient NDNetworkClient.h
@@ -41,7 +41,7 @@
  *
  * Network client.
  */
-@interface NDNetworkClient : NDNetworkNode <NSNetServiceBrowserDelegate>
+@interface NDNetworkClient : NDNetworkNode <NDMessageBroker, NSNetServiceBrowserDelegate>
 {	
 	id <NDNetworkClientDelegate> delegate;
 	

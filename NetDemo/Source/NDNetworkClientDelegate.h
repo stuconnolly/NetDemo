@@ -45,4 +45,16 @@
  */
 - (void)networkClient:(NDNetworkClient *)client didFindServices:(NSArray *)services;
 
+/**
+ *
+ *
+ */
+- (void)networkClient:(NDNetworkClient *)client didConnectToHost:(NSString *)host;
+
+/**
+ *
+ *
+ */
+- (void)networkClient:(NDNetworkClient *)client didDisconnectFromHost:(NSString *)host;
+
 @end

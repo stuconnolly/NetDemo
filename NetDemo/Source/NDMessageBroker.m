@@ -105,6 +105,10 @@
 - (void)onSocketDidDisconnect:(AsyncSocket *)socket
 {
 	NDLog(self, @"Broker socket disconnected: %@", socket);
+	
+	if (delegate && [delegate respondsToSelector:@selector(messageBroker:lostSocketConnection:)]) {
+		[delegate messageBroker:self lostSocketConnection:socket];
+	}
 }
 
 - (void)onSocket:(AsyncSocket *)socket didReadData:(NSData *)data withTag:(long)tag 

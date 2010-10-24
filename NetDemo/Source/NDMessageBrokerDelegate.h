@@ -55,4 +55,11 @@
  */ 
 - (void)messageBroker:(NDMessageBroker *)broker didReceiveMessage:(NDNetworkMessage *)message;
 
+/**
+ *
+ *
+ * 
+ */
+- (void)messageBroker:(NDMessageBroker *)broker lostSocketConnection:(AsyncSocket *)socket;
+
 @end
