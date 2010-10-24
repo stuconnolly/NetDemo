@@ -75,27 +75,6 @@
 }
 
 /**
- * Opens the set comm port sheet.
- */
-- (IBAction)setPort:(id)sender
-{
-	[NSApp beginSheet:portPanel 
-	   modalForWindow:[self window] 
-		modalDelegate:self 
-	   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:) 
-		  contextInfo:nil];
-}
-
-/**
- * Close the calling sheet.
- */
-- (IBAction)closeSheet:(id)sender
-{
-	[NSApp endSheet:[sender window] returnCode:[sender tag]];
-	[[sender window] orderOut:self];
-}
-
-/**
  * Sends the current message via the client.
  */
 - (IBAction)sendMessage:(id)sender
@@ -112,6 +91,14 @@
 		
 		[_client sendMessage:[inputTextView string]];
 	}
+}
+
+/**
+ *
+ */
+- (IBAction)disconnect:(id)sender
+{
+	if ([_client isConnected]) [_client disconnect];
 }
 
 /**
@@ -147,30 +134,14 @@
 	[_client connect];
 }
 
-#pragma mark -
-#pragma mark General delegate methods
-
-/**
- * Called when the set comm port sheet is dismissed.
- */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+- (void)networkClient:(NDNetworkClient *)client didConnectToHost:(NSString *)host;
 {
-	// Set the port and restart the server
-	if (returnCode == NSOKButton) {
-		[_server stopService];
-		[_server setPort:[portTextField integerValue]];
-		[_server startService];
-	}
+	[[self window] setTitle:[NSString stringWithFormat:@"NetDemo (Connected to '%@')", host]];
 }
 
-/**
- * Enable/disable the set port button depending on the port number entered.
- */
-- (void)controlTextDidChange:(NSNotification *)notification
-{	
-	if ([notification object] == portTextField) {
-		[setPortButton setEnabled:(([[portTextField stringValue] length] > 0) && ([portTextField integerValue] > 1024))];
-	}
+- (void)networkClient:(NDNetworkClient *)client didDisconnectFromHost:(NSString *)host
+{
+	[[self window] setTitle:@"NetDemo (Not Connected)"];
 }
 
 #pragma mark -

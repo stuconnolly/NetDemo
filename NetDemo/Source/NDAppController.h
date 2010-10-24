@@ -54,26 +54,18 @@
 	// Controllers
 	IBOutlet NDLogController *_logController;
 	
-	// Panels
-	IBOutlet NSPanel *portPanel;
-	
 	// Buttons
 	IBOutlet NSButton *sendButton;
-	IBOutlet NSButton *setPortButton;
 	IBOutlet NSButton *clearButton;
 	
 	// Input/output views
 	IBOutlet NSTextView *inputTextView;
 	IBOutlet NSTableView *outputTableView;
-	
-	// Other
-	IBOutlet NSTextField *portTextField;
 }
 
 - (IBAction)showNetworkLog:(id)sender;
-- (IBAction)setPort:(id)sender;
-- (IBAction)closeSheet:(id)sender;
 - (IBAction)sendMessage:(id)sender;
+- (IBAction)disconnect:(id)sender;
 - (IBAction)clearMessages:(id)sender;
 
 @end
