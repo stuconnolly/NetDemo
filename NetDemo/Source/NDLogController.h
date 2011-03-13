@@ -28,6 +28,8 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#import "NDLoggerDelegate.h"
+
 /**
  * @class NDLogController NDLogController.h
  *
@@ -35,7 +37,7 @@
  *
  * Log controller class.
  */
-@interface NDLogController : NSWindowController 
+@interface NDLogController : NSWindowController <NDLoggerDelegate>
 {
 	IBOutlet NSTableView *logMessagesTableView;
 	IBOutlet NSButton *clearLogButton;

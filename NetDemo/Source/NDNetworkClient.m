@@ -29,7 +29,10 @@
  */
 
 #import "NDNetworkClient.h"
+#import "NDMessageBroker.h"
 #import "NDNetworkMessage.h"
+#import "NDNetworkClientDelegate.h"
+#import "AsyncSocket.h"
 
 @interface NDNetworkClient (PrivateAPI)
 
@@ -199,7 +202,7 @@
 	
 	[_services removeObject:service];
 	
-    if (service == _connectedService) [self setIsConneced:NO];
+    if (service == _connectedService) [self setIsConnected:NO];
 }
 
 - (void)netServiceBrowserWillSearch:(NSNetServiceBrowser *)netServiceBrowser

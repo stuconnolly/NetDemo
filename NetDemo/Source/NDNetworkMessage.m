@@ -31,8 +31,8 @@
 #import "NDNetworkMessage.h"
 
 // Constants
-static const NSString *NDMessageDate = @"NDMessageDate";
-static const NSString *NDMessageData = @"NDMessageData";
+static NSString *NDMessageDate = @"NDMessageDate";
+static NSString *NDMessageData = @"NDMessageData";
 
 @implementation NDNetworkMessage
 

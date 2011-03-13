@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDMessageBroker, NDNetworkMessage;
+@class NDMessageBroker, NDNetworkMessage, AsyncSocket;
 
 /**
  * @protocol NDLoggerDelegate NDLoggerDelegate.h
@@ -38,6 +38,8 @@
  * Message broker delegate protocol.
  */
 @protocol NDMessageBrokerDelegate
+
+@optional
 
 /**
  * Called whenever the message broker sends a new message.

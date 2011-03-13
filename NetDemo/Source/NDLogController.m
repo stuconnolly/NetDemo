@@ -30,6 +30,7 @@
 
 #import "NDLogController.h"
 #import "NDNetworkMessage.h"
+#import "NDLogger.h"
 
 @implementation NDLogController
 
@@ -77,7 +78,7 @@
 #pragma mark -
 #pragma mark Logger delegate methods
 
-- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message
+- (void)logger:(NDLogger *)logger updatedWithMessage:(NDLogMessage *)message
 {	
 	[clearLogButton setEnabled:YES];
 	

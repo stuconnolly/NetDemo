@@ -41,7 +41,7 @@
  */
 @interface NDMessageBroker : NSObject 
 {
-	id <NDMessageBrokerDelegate> delegate;
+	id <NSObject, NDMessageBrokerDelegate> delegate;
 
 	AsyncSocket *_socket;
 	NSMutableArray *_messageQueue;
@@ -50,7 +50,7 @@
 /**
  * @property delegate The message broker's delegate
  */
-@property (readwrite, assign) id <NDMessageBrokerDelegate> delegate;
+@property (readwrite, assign) id <NSObject, NDMessageBrokerDelegate> delegate;
 
 - (id)initWithSocket:(AsyncSocket *)socket;
 

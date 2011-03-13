@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDMessageBroker, NDNetworkMessage;
+@class NDNetworkServer, NDMessageBroker, NDNetworkMessage;
 
 /**
  * @protocol NDLoggerDelegate NDLoggerDelegate.h

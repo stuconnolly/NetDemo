@@ -29,10 +29,10 @@
  */
 
 #import "NDNetworkNode.h"
+#import "NDNetworkServerDelegate.h"
+#import "NDMessageBrokerDelegate.h"
 
 @class NDMessageBroker, AsyncSocket;
-
-@protocol NDNetworkServerDelegate, NDMessageBrokerDelegate;
 
 /**
  * @class NDNetworkServer NDNetworkServer.h
@@ -43,7 +43,7 @@
  */
 @interface NDNetworkServer : NDNetworkNode <NSNetServiceDelegate, NDMessageBrokerDelegate>
 {
-	id <NDNetworkServerDelegate> delegate;
+	id <NSObject, NDNetworkServerDelegate> delegate;
 	
 	BOOL _serviceRunning;
 		
@@ -57,7 +57,7 @@
 /**
  * @property delegate The server's delegate
  */
-@property (readwrite, assign) id <NDNetworkServerDelegate> delegate;
+@property (readwrite, assign) id <NSObject, NDNetworkServerDelegate> delegate;
 
 - (BOOL)startService;
 - (BOOL)stopService;

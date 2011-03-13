@@ -28,7 +28,7 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDLogger, NDNetworkMessage;
+@class NDLogger, NDLogMessage;
 
 /**
  * @protocol NDLoggerDelegate NDLoggerDelegate.h
@@ -39,12 +39,14 @@
  */
 @protocol NDLoggerDelegate
 
+@optional
+
 /**
  * Called when the logger instance has been updated (i.e. a new log message added).
  * 
  * @param logger  The calling logger instance
  * @param message The message that caused the logger to be updated 
  */
-- (void)logger:(NDLogger *)logger updatedWithMessage:(NDNetworkMessage *)message;
+- (void)logger:(NDLogger *)logger updatedWithMessage:(NDLogMessage *)message;
 
 @end

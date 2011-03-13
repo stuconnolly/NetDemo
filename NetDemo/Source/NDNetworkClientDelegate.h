@@ -28,6 +28,8 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@class NDNetworkClient;
+
 /**
  * @protocol NDNetworkClientDelegate NDNetworkClientDelegate.h
  *
@@ -36,6 +38,9 @@
  * Network client delegate protocol.
  */
 @protocol NDNetworkClientDelegate
+
+
+@optional
 
 /**
  * Called when the client has found all available services.

@@ -29,6 +29,8 @@
  */
 
 #import "NDAppDelegate.h"
+#import "NDNetworkServer.h"
+#import "NDNetworkClient.h"
 
 @implementation NDAppController (NDAppDelegate)
 

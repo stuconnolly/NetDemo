@@ -39,7 +39,7 @@
  */
 @interface NDLogger : NSObject 
 {
-	id <NDLoggerDelegate> delegate;
+	id <NSObject, NDLoggerDelegate> delegate;
 	
 	NSMutableArray *logMessages;
 }
@@ -47,12 +47,14 @@
 /**
  * @property delegate The logger's delegate object
  */
-@property (readwrite, assign) id <NDLoggerDelegate> delegate;
+@property (readwrite, assign) id <NSObject, NDLoggerDelegate> delegate;
 
 /**
  * @property logMessages The logger's array of log messages
  */
 @property (readonly) NSMutableArray *logMessages;
+
++ (NDLogger *)logger;
 
 void NDLog(id caller, NSString *message, ...);
 void NDLogError(id caller, NSString *message, ...);

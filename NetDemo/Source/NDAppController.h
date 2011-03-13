@@ -28,9 +28,10 @@
  *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
-@class NDNetworkServer, NDNetworkClient, NDLogController;
+#import "NDNetworkServerDelegate.h"
+#import "NDNetworkClientDelegate.h"
 
-@protocol NDNetworkServerDelegate, NDNetworkClientDelegate;
+@class NDNetworkServer, NDNetworkClient, NDLogController;
 
 /**
  * @class NDAppController NDAppController.h

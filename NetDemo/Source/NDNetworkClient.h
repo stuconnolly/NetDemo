@@ -29,10 +29,10 @@
  */
 
 #import "NDNetworkNode.h"
+#import "NDMessageBrokerDelegate.h"
+#import "NDNetworkClientDelegate.h"
 
 @class NDMessageBroker, AsyncSocket;
-
-@protocol NDMessageBroker, NDNetworkClientDelegate;
 
 /**
  * @class NDNetworkClient NDNetworkClient.h
@@ -41,9 +41,9 @@
  *
  * Network client.
  */
-@interface NDNetworkClient : NDNetworkNode <NDMessageBroker, NSNetServiceBrowserDelegate>
+@interface NDNetworkClient : NDNetworkNode <NDMessageBrokerDelegate, NSNetServiceBrowserDelegate, NSNetServiceDelegate>
 {	
-	id <NDNetworkClientDelegate> delegate;
+	id <NSObject, NDNetworkClientDelegate> delegate;
 	
 	BOOL isConnected;
 		
@@ -58,12 +58,12 @@
 /**
  * @property delegate The client's delegate
  */
-@property (readwrite, assign) id <NDNetworkClientDelegate> delegate;
+@property (readwrite, assign) id <NSObject, NDNetworkClientDelegate> delegate;
 
 /**
  * @property isConnected Indicates whether or not the client is connected to the server
  */
-@property (readonly, assign) BOOL isConnected;
+@property (readonly) BOOL isConnected;
 
 - (void)search;
 - (void)connect;

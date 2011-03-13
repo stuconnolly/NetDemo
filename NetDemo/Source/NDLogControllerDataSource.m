@@ -38,7 +38,7 @@
  */
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return [[[NDLogger logger] logMessages] count];
+	return (NSInteger)[[[NDLogger logger] logMessages] count];
 }
 
 /**
@@ -49,12 +49,12 @@
 	NSString *returnValue = nil;
 	NSMutableDictionary *stringAtributes = nil;
 	
-	id object = [[[[NDLogger logger] logMessages] objectAtIndex:row] valueForKey:[tableColumn identifier]];
+	id object = [[[[NDLogger logger] logMessages] objectAtIndex:(NSUInteger)row] valueForKey:[tableColumn identifier]];
 	
 	returnValue = ([[tableColumn identifier] isEqualToString:@"messageDate"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : object;
 	
 	// If this is an error message give it a red colour
-	if ([(NDLogMessage *)[[[NDLogger logger] logMessages] objectAtIndex:row] isError]) {
+	if ([(NDLogMessage *)[[[NDLogger logger] logMessages] objectAtIndex:(NSUInteger)row] isError]) {
 		stringAtributes = [NSMutableDictionary dictionaryWithObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
 	}
 	

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.SystemVersion">10J567</string>
 		<string key="IBDocument.InterfaceBuilderVersion">823</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
+		<string key="IBDocument.HIToolboxVersion">462.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">823</string>
@@ -1044,6 +1044,7 @@
 									</object>
 									<string key="NSFrame">{{1, 17}, {756, 236}}</string>
 									<reference key="NSSuperview" ref="313319217"/>
+									<reference key="NSNextKeyView" ref="56761542"/>
 									<reference key="NSDocView" ref="56761542"/>
 									<reference key="NSBGColor" ref="315844745"/>
 									<int key="NScvFlags">4</int>
@@ -1078,6 +1079,7 @@
 									</object>
 									<string key="NSFrame">{{1, 0}, {756, 17}}</string>
 									<reference key="NSSuperview" ref="313319217"/>
+									<reference key="NSNextKeyView" ref="400193737"/>
 									<reference key="NSDocView" ref="400193737"/>
 									<reference key="NSBGColor" ref="315844745"/>
 									<int key="NScvFlags">4</int>
@@ -1086,6 +1088,7 @@
 							</object>
 							<string key="NSFrame">{{20, 60}, {758, 254}}</string>
 							<reference key="NSSuperview" ref="846074465"/>
+							<reference key="NSNextKeyView" ref="910091002"/>
 							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="38231320"/>
 							<reference key="NSHScroller" ref="644179156"/>
@@ -2295,9 +2298,9 @@
 					<integer value="1"/>
 					<string>{74, 862}</string>
 					<string>{{6, 978}, {478, 20}}</string>
-					<string>{{392, 189}, {518, 334}}</string>
+					<string>{{361, 168}, {518, 334}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{392, 189}, {518, 334}}</string>
+					<string>{{361, 168}, {518, 334}}</string>
 					<integer value="1"/>
 					<string>{{33, 99}, {480, 360}}</string>
 					<boolean value="YES"/>

@@ -31,6 +31,7 @@
 #import "NDNetworkServer.h"
 #import "NDMessageBroker.h"
 #import "NDNetworkMessage.h"
+#import "AsyncSocket.h"
 
 @implementation NDNetworkServer
 
@@ -72,7 +73,7 @@
 		
 		NDLog(self, @"Starting server listening socket");
 		
-		if (![_listeningSocket acceptOnPort:port error:&error]) {
+		if (![_listeningSocket acceptOnPort:(UInt16)port error:&error]) {
 			NDLogError(self, @"Failed to create server listening socket. Error: %@", [error localizedDescription]);
 						
 			return NO;

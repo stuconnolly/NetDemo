@@ -29,6 +29,7 @@
  */
 
 #import "NDLogMessage.h"
+#import "NDLoggerDelegate.h"
 
 static NDLogger *logger = nil;
 
