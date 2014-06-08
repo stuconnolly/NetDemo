@@ -155,6 +155,8 @@
 		if (delegate && [delegate respondsToSelector:@selector(messageBroker:didSendMessage:)]) {
             [delegate messageBroker:self didSendMessage:message];
         }
+
+		[message release];
     }
 }
 

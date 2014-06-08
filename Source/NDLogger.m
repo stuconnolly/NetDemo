@@ -90,7 +90,7 @@ void _NDLogMessage(id caller, BOOL isError, NSString *message, va_list arguments
 
 - (id)autorelease { return self; }
 
-- (void)release { }
+- (oneway void)release { }
 
 #pragma mark -
 #pragma mark Public API

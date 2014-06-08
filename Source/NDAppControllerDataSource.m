@@ -45,7 +45,7 @@
 {	
 	id object = [[_messages objectAtIndex:(NSUInteger)row] valueForKey:[tableColumn identifier]];
 		
-	NSString *returnValue = ([[tableColumn identifier] isEqualToString:@"date"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : [[[NSString alloc] initWithBytes:[object bytes] length:[object length] encoding:NSUTF8StringEncoding] autorelease];
+	NSString *returnValue = ([[tableColumn identifier] isEqualToString:@"date"]) ? [_dateFormatter stringFromDate:(NSDate *)object] : [[[NSString alloc] initWithBytes:[object bytes] length:[(NSString *)object length] encoding:NSUTF8StringEncoding] autorelease];
 		
 	return returnValue;
 }
