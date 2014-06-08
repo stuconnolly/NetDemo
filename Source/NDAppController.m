@@ -158,6 +158,8 @@
 	if (_client) [_client release], _client = nil;
 	
 	[_messages release], _messages = nil;
+
+	[super dealloc];
 }
 
 @end

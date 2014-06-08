@@ -170,6 +170,8 @@
 	
 	[_socket release], _socket = nil;
 	[_messageQueue release], _messageQueue = nil;
+
+	[super dealloc];
 }
 
 @end
