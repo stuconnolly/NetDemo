@@ -1,10 +1,8 @@
 #! /bin/ksh
 
 #
-#  $Id$
-#
 #  NetDemo
-#  http://stuconnolly.com/projects/code/
+#  https://github.com/stuconnolly/netdemo
 #
 #  Copyright (c) 2010 Stuart Connolly. All rights reserved.
 #
